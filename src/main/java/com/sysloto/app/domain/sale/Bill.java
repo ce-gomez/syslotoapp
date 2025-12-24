@@ -22,7 +22,7 @@ public class Bill {
     @JoinColumn(name = "seller_id", nullable = false)
     private Seller seller;
     private Long scheduleId;
-    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bill_id")
     private List<Sale> sales;
 

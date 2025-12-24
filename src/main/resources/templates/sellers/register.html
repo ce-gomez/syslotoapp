@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: layout(~{::content})}" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="content">
+        <h2 style="margin-top: 0; margin-bottom: 24px;">Register New Seller</h2>
+
+        <div class="card" style="max-width: 600px;">
+            <form th:action="@{/sellers/register}" method="post">
+
+                <div class="text-field">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required placeholder=" ">
+                </div>
+
+                <div class="text-field">
+                    <label for="lastname">Lastname</label>
+                    <input type="text" id="lastname" name="lastname" required placeholder=" ">
+                </div>
+
+                <div class="text-field">
+                    <label for="factor">Commission Factor</label>
+                    <input type="number" step="0.01" id="factor" name="factor" required placeholder=" " value="1.0">
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                    <a th:href="@{/sellers}"
+                        style="margin-right: 16px; align-self: center; color: var(--md-sys-color-primary); text-decoration: none; font-weight: 500;">Cancel</a>
+                    <button type="submit" class="btn-filled">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
