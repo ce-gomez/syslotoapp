@@ -4,10 +4,10 @@
 <body>
     <div th:fragment="content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <h2 style="margin: 0;">Sellers List</h2>
+            <h2 style="margin: 0;">Lista de Vendedores</h2>
             <a th:href="@{/sellers/register}" class="btn-filled"
                 style="text-decoration: none; display: inline-flex; align-items: center;">
-                <span>+ Add Seller</span>
+                <span>+ Nuevo Vendedor</span>
             </a>
         </div>
 
@@ -16,12 +16,14 @@
                 <thead style="background-color: var(--md-sys-color-surface-container);">
                     <tr>
                         <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">ID</th>
-                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">Name
+                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">Nombre
                         </th>
                         <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
-                            Lastname</th>
+                            Apellido</th>
                         <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">Factor
                         </th>
+                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+                            Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,10 +33,14 @@
                         <td style="padding: 16px;" th:text="${seller.name}">John</td>
                         <td style="padding: 16px;" th:text="${seller.lastname}">Doe</td>
                         <td style="padding: 16px;" th:text="${seller.factor}">0.5</td>
+                        <td style="padding: 16px;">
+                            <a th:href="@{/sellers/edit/{id}(id=${seller.sellerId})}"
+                                style="color: var(--md-sys-color-primary); text-decoration: none; font-weight: 500;">Editar</a>
+                        </td>
                     </tr>
                     <tr th:if="${sellers.empty}">
-                        <td colspan="4" style="padding: 24px; text-align: center; color: var(--md-sys-color-outline);">
-                            No sellers found.
+                        <td colspan="5" style="padding: 24px; text-align: center; color: var(--md-sys-color-outline);">
+                            No hay vendedores registrados.
                         </td>
                     </tr>
                 </tbody>
