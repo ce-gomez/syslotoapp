@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html th:fragment="layout(content)" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,33 +10,50 @@
     <!-- Local Styles -->
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
+
 <body>
     <div class="layout-container">
         <!-- Navigation Drawer -->
         <nav class="navigation-drawer">
-            <div class="drawer-header">Sysloto</div>
+            <div class="drawer-header">
+                <!-- Placeholder for Logo -->
+                <div
+                    style="width: 32px; height: 32px; background-color: var(--md-sys-color-primary); border-radius: 50%;">
+                </div>
+                Sysloto
+            </div>
             <a th:href="@{/sellers}" class="nav-item active">
-                <span>Sellers</span>
+                <span>Vendedores</span>
             </a>
             <a href="#" class="nav-item">
-                <span>Lottery</span>
+                <span>Lotería</span>
             </a>
             <a href="#" class="nav-item">
-                <span>Settings</span>
+                <span>Configuración</span>
             </a>
         </nav>
 
         <!-- Main Content -->
         <main class="main-content">
             <header class="top-app-bar">
-                <span class="headline-small">Administration</span>
+                <span class="headline-small">Administración</span>
+                <!-- Logout Icon Button -->
+                <button style="background: none; border: none; cursor: pointer; color: var(--md-sys-color-on-surface);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
             </header>
-            
-            <div class="content-body">
-                <!-- Content Injection Point -->
+
+            <!-- Content Panel -->
+            <div class="content-panel">
                 <div th:replace="${content}"></div>
             </div>
         </main>
     </div>
 </body>
+
 </html>

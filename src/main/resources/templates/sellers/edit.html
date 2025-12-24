@@ -3,30 +3,32 @@
 
 <body>
     <div th:fragment="content">
-        <h2 style="margin-top: 0; margin-bottom: 24px;">Registrar Vendedor</h2>
+        <h2 style="margin-top: 0; margin-bottom: 24px;">Editar Perfil del Vendedor</h2>
 
         <div style="max-width: 600px;">
-            <form th:action="@{/sellers/register}" method="post">
+            <form th:action="@{/sellers/edit/{id}(id=${seller.sellerId})}" method="post">
 
                 <div class="text-field">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" required placeholder=" ">
+                    <input type="text" id="name" name="name" required placeholder=" " th:value="${seller.name}">
                 </div>
 
                 <div class="text-field">
                     <label for="lastname">Apellido</label>
-                    <input type="text" id="lastname" name="lastname" required placeholder=" ">
+                    <input type="text" id="lastname" name="lastname" required placeholder=" "
+                        th:value="${seller.lastname}">
                 </div>
 
                 <div class="text-field">
                     <label for="factor">Factor de Comisión</label>
-                    <input type="number" step="0.01" id="factor" name="factor" required placeholder=" " value="1.0">
+                    <input type="number" step="0.01" id="factor" name="factor" required placeholder=" "
+                        th:value="${seller.factor}">
                 </div>
 
                 <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
                     <a th:href="@{/sellers}"
                         style="margin-right: 16px; align-self: center; color: var(--md-sys-color-primary); text-decoration: none; font-weight: 500;">Cancelar</a>
-                    <button type="submit" class="btn-filled">Registrar</button>
+                    <button type="submit" class="btn-filled">Guardar Cambios</button>
                 </div>
             </form>
         </div>
