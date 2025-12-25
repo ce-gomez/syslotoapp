@@ -23,7 +23,7 @@ public class Schedule {
     }
 
     public static Schedule create(String name, SaleSpecification specification) {
-        var sc = new Schedule(0L, name);
+        var sc = new Schedule(null, name);
         sc.specification = specification;
         return sc;
     }

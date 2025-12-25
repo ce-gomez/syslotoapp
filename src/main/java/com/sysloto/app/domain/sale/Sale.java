@@ -17,10 +17,10 @@ public class Sale {
     private double price;
     private double factor;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Number number;
+    private LotteryNumber lotteryNumber;
 
-    public static Sale of(double price, double factor, Number number) {
-        return new Sale(0L, price, factor, number);
+    public static Sale of(double price, double factor, LotteryNumber lotteryNumber) {
+        return new Sale(null, price, factor, lotteryNumber);
     }
 
     public double getTotal() {
