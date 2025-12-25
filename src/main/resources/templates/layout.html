@@ -36,7 +36,13 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="top-app-bar">
-                <span class="headline-small">Administración</span>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <span class="headline-small">Administración</span>
+                    <span id="current-shift"
+                        style="font-size: 14px; background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); padding: 4px 12px; border-radius: 16px; font-weight: 500;">
+                        Cargando turno...
+                    </span>
+                </div>
                 <!-- Logout Icon Button -->
                 <button style="background: none; border: none; cursor: pointer; color: var(--md-sys-color-on-surface);">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -54,6 +60,33 @@
             </div>
         </main>
     </div>
+
+    <script>
+        function updateShift() {
+            fetch('/api/schedule/current')
+                .then(response => response.json())
+                .then(data => {
+                    const shiftElement = document.getElementById('current-shift');
+                    if (shiftElement) {
+                        shiftElement.textContent = data.name;
+                        // Optional: Change color if "Fuera de turno"
+                        if (data.name === 'Fuera de turno') {
+                            shiftElement.style.backgroundColor = 'var(--md-sys-color-error-container)';
+                            shiftElement.style.color = 'var(--md-sys-color-on-error-container)';
+                        } else {
+                            shiftElement.style.backgroundColor = 'var(--md-sys-color-primary-container)';
+                            shiftElement.style.color = 'var(--md-sys-color-on-primary-container)';
+                        }
+                    }
+                })
+                .catch(error => console.error('Error fetching shift:', error));
+        }
+
+        // Run on load
+        updateShift();
+        // Run every minute
+        setInterval(updateShift, 60000);
+    </script>
 </body>
 
 </html>

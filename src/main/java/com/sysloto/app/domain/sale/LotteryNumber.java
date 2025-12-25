@@ -10,16 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "number", uniqueConstraints = @UniqueConstraint(columnNames = "number"))
-public class Number {
+@Table(name = "lotery_number", uniqueConstraints = @UniqueConstraint(columnNames = "number"))
+public class LotteryNumber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numberId;
-    @Column(unique = true, nullable = false, length = 2)
+    @Column(unique = true, nullable = false, length = 2, name = "number_value")
     private String number;
+    @Column(nullable = false, name = "sale_limit")
     private double limit;
 
-    public static Number create(String numberId, double limit) {
-        return new Number(0L, numberId, limit);
+    public static LotteryNumber create(String numberId, double limit) {
+        return new LotteryNumber(null, numberId, limit);
     }
 }
