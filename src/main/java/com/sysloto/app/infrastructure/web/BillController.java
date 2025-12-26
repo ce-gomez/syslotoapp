@@ -23,16 +23,18 @@ public class BillController {
     private final SellerRepository sellerRepository;
 
     @GetMapping
-    public String index(Model model) {
-        // Find recent bills (simplified for now: all bills, or empty list if none)
-        // Ideally we would pagination or filter by current schedule, but Requirement is
-        // just "List recent bills"
-        // Let's list bills from current schedule if possible, or just all.
-        // Assuming findByScheduleId exists or similar. For now, fetch all or empty
-        // Actually, let's just show standard list.
-        model.addAttribute("bills", billRepository.findAll()); // Assuming JpaBillRepository supports findAll via
-                                                               // ListCrudRepository
-        model.addAttribute("sellers", sellerRepository.findAll()); // For the modal
+    public String index(@RequestParam(required = false) Long sellerId, Model model) {
+        if (sellerId != null) {
+            model.addAttribute("bills", billRepository.findBySellerId(sellerId));
+            model.addAttribute("selectedSellerId", sellerId);
+        } else {
+            model.addAttribute("bills", billRepository.findAll());
+        }
+
+        // sellers are now provided by GlobalDataAdvice as "globalSellers",
+        // but we might still populate "sellers" for the internal modal if template uses
+        // it explicitly.
+        model.addAttribute("sellers", sellerRepository.findAll());
         return "bills/index";
     }
 
@@ -52,6 +54,9 @@ public class BillController {
         Bill bill = billRepository.findByBillId(id)
                 .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
         model.addAttribute("bill", bill);
+        // Add lists for Master-Detail view
+        model.addAttribute("bills", billRepository.findAll());
+        model.addAttribute("sellers", sellerRepository.findAll());
         return "bills/detail";
     }
 
