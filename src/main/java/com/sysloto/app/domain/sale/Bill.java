@@ -1,5 +1,6 @@
 package com.sysloto.app.domain.sale;
 
+import com.sysloto.app.domain.schedule.Schedule;
 import com.sysloto.app.domain.seller.Seller;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,21 +22,23 @@ public class Bill {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", nullable = false)
     private Seller seller;
-    private Long scheduleId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private Schedule schedule;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bill_id")
     private List<Sale> sales;
 
-    public Bill(Long billId, LocalDateTime date, Seller seller, Long scheduleId) {
+    public Bill(Long billId, LocalDateTime date, Seller seller, Schedule schedule) {
         this.billId = billId;
         this.date = date;
         this.seller = seller;
-        this.scheduleId = scheduleId;
+        this.schedule = schedule;
         this.sales = new ArrayList<>();
     }
 
-    public static Bill create(Seller seller, Long scheduleId) {
-        return new Bill(null, LocalDateTime.now(), seller, scheduleId);
+    public static Bill create(Seller seller, Schedule schedule) {
+        return new Bill(null, LocalDateTime.now(), seller, schedule);
     }
 
     public double getTotal() {
