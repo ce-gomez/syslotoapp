@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Icon Button</title>
+</head>
+<body>
+  <div class="flex justify-center items-center p-1" th:fragment="icon-button(icon)">
+    <button class="flex items-center justify-center p-2 rounded-full hover:bg-surface-container-high transition-colors leading-none">
+      <i class="material-symbols-rounded block" th:text="${icon}" style="font-size: 24px;">settings</i>
+    </button>
+  </div>
+</body>
+</html>

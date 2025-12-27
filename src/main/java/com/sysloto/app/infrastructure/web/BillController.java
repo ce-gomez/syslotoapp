@@ -38,6 +38,16 @@ public class BillController {
         return "bills/index";
     }
 
+    @GetMapping("/s/{sellerId}/daily")
+    public String getDailyBillsBySeller(@PathVariable Long sellerId, Model model) {
+        var bills = billRepository.findBySellerId(sellerId);
+        var seller = sellerRepository.findById(sellerId).get();
+        model.addAttribute("seller", seller);
+        model.addAttribute("bills", bills);
+        model.addAttribute("count", bills.size());
+        return "bills/billsSeller";
+    }
+
     @PostMapping("/create")
     public String createBill(@RequestParam Long sellerId, RedirectAttributes redirectAttributes) {
         try {

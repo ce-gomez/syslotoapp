@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation Rail</title>
+</head>
+<body>
+    <aside th:fragment="navigation-rail" class="flex flex-col gap-4 pt-3 px-3 h-full">
+        <button type="button"
+                class="flex gap-3 p-4 rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed text-label-large w-fit"
+        >
+            <i class="material-symbols-rounded">editor_choice</i>
+            Sortear
+        </button>
+        <nav class="flex flex-col flex-1">
+            <details class="group">
+                <summary class="flex items-center px-4 py-2 cursor-pointer text-on-surface-variant hover:bg-surface-container-high rounded-full list-none">
+                    <!-- Icono opcional para indicar despliegue -->
+                    <i class="material-symbols-rounded transition-transform group-open:rotate-180">arrow_drop_down</i>
+                    <span class="flex-1">Ventas</span>
+                </summary>
+                <ul>
+                    <li th:each="seller : ${globalSellers}">
+                        <a th:href="@{/bills/s/{id}/daily(id=${seller.sellerId})}"
+                           class="flex px-4 py-3 rounded-full hover:bg-surface-container-high transition-colors">
+                            <span th:text="${seller.name} + ' ' + ${seller.lastname}">Nombre Apellido</span>
+                        </a>
+                    </li>
+                </ul>
+            </details>
+        </nav>
+    </aside>
+</body>
+</html>
