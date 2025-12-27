@@ -1,0 +1,17 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Front for sysloto app",
+  "license": "ISC",
+  "author": "cgomez",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i input.css -o ../resources/static/main.css --minify",
+    "watch": "npx @tailwindcss/cli --watch -i input.css -o ../resources/static/main.css --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}

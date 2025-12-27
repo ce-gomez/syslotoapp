@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@source "../resources/templates/**/*.{html,js}";
+
+@theme static {
+    --color-primary: #006587;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #1C7FA6;
+    --color-on-primary-container: #ffffff;
+
+    --color-background: #F7FAFD;
+
+    --color-surface: #F7FAFD;
+    --color-on-surface: #181C1F;
+    --color-surface-variant: #DBE4EB;
+    --color-on-surface-variant: #3F484E;
+    --color-outline: #6F787F;
+    --color-outline-variant: #BFC8CF;
+
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #F1F4F7;
+    --color-surface-container: #EBEEF1;
+    --color-surface-container-high: #E6E8EC;
+    --color-surface-container-highest: #E0E3E6;
+}
+
+@utility text-headline-medium {
+    font-size: 1.75rem;
+    line-height: var(--text-4xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+    color: var(--color-on-surface);
+}
+
+@utility text-body-large {
+    font-size: 1rem;
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+}
+
+@utility text-body-medium {
+    font-size: var(--text-sm);
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+}
+
+@utility text-body-small {
+    font-size: var(--text-xs);
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+}
+
+@utility text-label-large {
+    font-size: var(--text-sm);
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+@utility text-label-medium {
+    font-size: var(--text-xs);
+    line-height: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+@utility text-label-small {
+    font-size: 0.6875rem;
+    line-height: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+@utility text-title-large {
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+    color: var(--color-on-surface);
+}
+
+@layer base {
+    body {
+        @apply bg-surface-container text-on-surface;
+    }
+
+    button {
+        @apply outline-none cursor-pointer text-label-large;
+    }
+}
