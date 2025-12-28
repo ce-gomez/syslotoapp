@@ -1,38 +1,56 @@
 <!DOCTYPE html>
-<html th:replace="~{layout2 :: layout(~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" th:replace="~{layouts/base :: layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Vendedor</title>
+</head>
 
 <body>
-    <div th:fragment="content">
-        <h2 style="margin-top: 0; margin-bottom: 24px;">Editar Perfil del Vendedor</h2>
+    <section class="flex justify-center items-start p-4 w-full">
+        <div class="flex flex-col rounded-3xl bg-surface p-6 gap-6 w-full" style="max-width: 600px;">
+            <header class="flex flex-col gap-2">
+                <h2 class="text-headline-medium">Editar Vendedor</h2>
+                <p class="text-body-medium text-on-surface-variant">Modifique los datos del vendedor</p>
+            </header>
 
-        <div style="max-width: 600px;">
-            <form th:action="@{/sellers/edit/{id}(id=${seller.sellerId})}" method="post">
-
-                <div class="text-field">
-                    <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" required placeholder=" " th:value="${seller.name}">
+            <form method="POST" th:action="@{/sellers/edit/{id}(id=${seller.sellerId})}" class="flex flex-col gap-5">
+                <div class="flex flex-col gap-2">
+                    <label for="name" class="text-body-medium text-on-surface-variant pl-4">Nombre</label>
+                    <input type="text" id="name" name="name" th:value="${seller.name}" required
+                        class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                        placeholder="Ingrese el nombre" />
                 </div>
 
-                <div class="text-field">
-                    <label for="lastname">Apellido</label>
-                    <input type="text" id="lastname" name="lastname" required placeholder=" "
-                        th:value="${seller.lastname}">
+                <div class="flex flex-col gap-2">
+                    <label for="lastname" class="text-body-medium text-on-surface-variant pl-4">Apellido</label>
+                    <input type="text" id="lastname" name="lastname" th:value="${seller.lastname}" required
+                        class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                        placeholder="Ingrese el apellido" />
                 </div>
 
-                <div class="text-field">
-                    <label for="factor">Factor de Comisión</label>
-                    <input type="lotteryNumber" step="0.01" id="factor" name="factor" required placeholder=" "
-                        th:value="${seller.factor}">
+                <div class="flex flex-col gap-2">
+                    <label for="factor" class="text-body-medium text-on-surface-variant pl-4">Factor</label>
+                    <input type="number" id="factor" name="factor" th:value="${seller.factor}" step="0.01" min="0"
+                        required
+                        class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                        placeholder="Ej: 0.20" />
                 </div>
 
-                <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+                <div class="flex gap-3 justify-end">
                     <a th:href="@{/sellers}"
-                        style="margin-right: 16px; align-self: center; color: var(--md-sys-color-primary); text-decoration: none; font-weight: 500;">Cancelar</a>
-                    <button type="submit" class="btn-filled">Guardar Cambios</button>
+                        class="px-6 py-3 rounded-full text-primary font-medium hover:bg-primary/10 transition-colors">
+                        Cancelar
+                    </a>
+                    <button type="submit"
+                        class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary hover:bg-surface-container-high transition-colors">
+                        <i class="material-symbols-rounded">send</i>
+                        <span class="text-label-large">Actualizar</span>
+                    </button>
                 </div>
             </form>
         </div>
-    </div>
+    </section>
 </body>
 
 </html>

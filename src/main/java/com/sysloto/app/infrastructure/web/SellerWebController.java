@@ -22,13 +22,23 @@ public class SellerWebController {
     private final SellerRepository sellerRepository;
 
     @GetMapping
-    public String listSellers(Model model) {
+    public String listSellers(@RequestParam(required = false) Long sellerId, Model model) {
         model.addAttribute("sellers", sellerRepository.findAll());
+        model.addAttribute("isInSellersContext", true);
+
+        if (sellerId != null) {
+            sellerRepository.findById(sellerId).ifPresent(seller -> {
+                model.addAttribute("selectedSeller", seller);
+                model.addAttribute("sellerId", sellerId);
+            });
+        }
+
         return "sellers/list";
     }
 
     @GetMapping("/register")
-    public String showRegisterForm() {
+    public String showRegisterForm(Model model) {
+        model.addAttribute("isInSellersContext", true);
         return "sellers/register";
     }
 
@@ -54,6 +64,6 @@ public class SellerWebController {
             @RequestParam String lastname,
             @RequestParam double factor) {
         updateSellerProfile.updateProfile(id, name, lastname, factor);
-        return "redirect:/sellers";
+        return "redirect:/sellers?sellerId=" + id;
     }
 }

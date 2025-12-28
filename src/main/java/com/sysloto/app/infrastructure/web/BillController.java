@@ -69,6 +69,7 @@ public class BillController {
         model.addAttribute("bills", bills);
         model.addAttribute("count", bills.size());
         model.addAttribute("billId", billId);
+        model.addAttribute("isInBillsContext", true);
         return "bills/billsSeller";
     }
 
@@ -76,8 +77,8 @@ public class BillController {
     public String newBill(@PathVariable Long sellerId, RedirectAttributes redirectAttributes) {
         try {
             Bill bill = billingService.registerNewBill(sellerId);
-            return "redirect:/bills/s/" + sellerId +"/daily?billId=" + bill.getBillId();
-            //return "redirect:/bills/s/" + sellerId + "/daily";
+            return "redirect:/bills/s/" + sellerId + "/daily?billId=" + bill.getBillId();
+            // return "redirect:/bills/s/" + sellerId + "/daily";
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/bills/s/" + sellerId + "/daily";
@@ -89,11 +90,10 @@ public class BillController {
             @PathVariable Long billId,
             @RequestParam String number,
             @RequestParam double price,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
         try {
             Bill bill = billingService.createNewSale(billId, number, price);
-            return "redirect:/bills/s/" + bill.getSeller().getSellerId() +"/daily?billId=" + bill.getBillId();
+            return "redirect:/bills/s/" + bill.getSeller().getSellerId() + "/daily?billId=" + bill.getBillId();
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/bills";

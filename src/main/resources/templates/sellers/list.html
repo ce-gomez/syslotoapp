@@ -1,52 +1,105 @@
 <!DOCTYPE html>
-<html th:replace="~{layout2 :: layout(~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" th:replace="~{layouts/base :: layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vendedores</title>
+</head>
 
 <body>
-    <div th:fragment="content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <h2 style="margin: 0;">Lista de Vendedores</h2>
-            <a th:href="@{/sellers/register}" class="btn-filled"
-                style="text-decoration: none; display: inline-flex; align-items: center;">
-                <span>+ Nuevo Vendedor</span>
-            </a>
+    <section class="flex gap-3 mb-4 mr-4 max-h-screen w-full">
+        <!-- Left Panel - Seller List -->
+        <div class="flex flex-col rounded-3xl bg-surface w-md">
+            <header class="flex flex-col px-1 pt-2 pb-3">
+                <a th:href="@{/sellers/register}" class="flex justify-end items-center p-1">
+                    <button type="button" class="flex px-4 py-2 rounded-full bg-primary text-on-primary">
+                        <i class="material-symbols-rounded">add</i>
+                    </button>
+                </a>
+                <h2 class="flex justify-center text-headline-medium">Vendedores</h2>
+            </header>
+
+            <div class="flex px-4">
+                <span><span th:text="${sellers.size()}">0</span> vendedores</span>
+            </div>
+
+            <ul class="flex flex-col gap-1 px-2">
+                <li th:each="seller : ${sellers}">
+                    <a th:href="@{/sellers(sellerId=${seller.sellerId})}"
+                        th:classappend="${seller.sellerId == sellerId} ? 'bg-secondary-container text-on-secondary-container' : ''"
+                        class="flex items-center px-4 py-2 gap-4 rounded-2xl hover:bg-surface-container-high transition-colors">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container">
+                            <span class="text-label-large"
+                                th:text="${seller.name.charAt(0)} + ${seller.lastname.charAt(0)}">AB</span>
+                        </div>
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex flex-col">
+                                <span class="text-title-medium text-on-surface">
+                                    <span th:text="${seller.name} + ' ' + ${seller.lastname}">Nombre Apellido</span>
+                                </span>
+                                <span class="text-body-medium">Factor: <span
+                                        th:text="${seller.factor}">1.0</span></span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
 
-        <div class="card" style="padding: 0; overflow: hidden;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                <thead style="background-color: var(--md-sys-color-surface-container);">
-                    <tr>
-                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">ID</th>
-                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">Nombre
-                        </th>
-                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
-                            Apellido</th>
-                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">Factor
-                        </th>
-                        <th style="padding: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
-                            Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="seller : ${sellers}"
-                        style="border-bottom: 1px solid var(--md-sys-color-surface-container);">
-                        <td style="padding: 16px;" th:text="${seller.sellerId}">1</td>
-                        <td style="padding: 16px;" th:text="${seller.name}">John</td>
-                        <td style="padding: 16px;" th:text="${seller.lastname}">Doe</td>
-                        <td style="padding: 16px;" th:text="${seller.factor}">0.5</td>
-                        <td style="padding: 16px;">
-                            <a th:href="@{/sellers/edit/{id}(id=${seller.sellerId})}"
-                                style="color: var(--md-sys-color-primary); text-decoration: none; font-weight: 500;">Editar</a>
-                        </td>
-                    </tr>
-                    <tr th:if="${sellers.empty}">
-                        <td colspan="5" style="padding: 24px; text-align: center; color: var(--md-sys-color-outline);">
-                            No hay vendedores registrados.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <!-- Right Panel - Edit Form or Empty State -->
+        <th:block th:if="${selectedSeller != null}">
+            <div class="flex flex-col flex-1 rounded-3xl bg-surface p-6 gap-6">
+                <header class="flex flex-col gap-2">
+                    <h2 class="text-headline-medium">Editar Vendedor</h2>
+                    <p class="text-body-medium text-on-surface-variant">Modifique los datos del vendedor</p>
+                </header>
+
+                <form method="POST" th:action="@{/sellers/edit/{id}(id=${selectedSeller.sellerId})}"
+                    class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-2">
+                        <label for="name" class="text-body-medium text-on-surface-variant pl-4">Nombre</label>
+                        <input type="text" id="name" name="name" th:value="${selectedSeller.name}" required
+                            class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                            placeholder="Ingrese el nombre" />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="lastname" class="text-body-medium text-on-surface-variant pl-4">Apellido</label>
+                        <input type="text" id="lastname" name="lastname" th:value="${selectedSeller.lastname}" required
+                            class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                            placeholder="Ingrese el apellido" />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="factor" class="text-body-medium text-on-surface-variant pl-4">Factor</label>
+                        <input type="number" id="factor" name="factor" th:value="${selectedSeller.factor}" step="0.01"
+                            min="0" required
+                            class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                            placeholder="Ej: 0.20" />
+                    </div>
+
+                    <div class="flex gap-3 justify-end">
+                        <a th:href="@{/sellers}"
+                            class="px-6 py-3 rounded-full text-primary font-medium hover:bg-primary/10 transition-colors">
+                            Cancelar
+                        </a>
+                        <button type="submit"
+                            class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary hover:bg-surface-container-high transition-colors">
+                            <i class="material-symbols-rounded">send</i>
+                            <span class="text-label-large">Actualizar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </th:block>
+
+        <th:block th:if="${selectedSeller == null}">
+            <div
+                th:replace="~{layouts/emptyPane :: empty-pane('No hay vendedor seleccionado.', 'Selecciona un vendedor para editar su información.')}">
+            </div>
+        </th:block>
+    </section>
 </body>
 
 </html>
