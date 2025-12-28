@@ -48,4 +48,16 @@ public class LotteryNumberStatsService {
                 .mapToDouble(Sale::getPrice)
                 .sum();
     }
+
+    /**
+     * Calcula el monto total vendido en el día actual (todos los números)
+     */
+    public double calculateTotalDailySales() {
+        List<Bill> bills = billRepository.findAll();
+        return bills.stream()
+                .filter(bill -> bill.getDate().toLocalDate().equals(LocalDate.now()))
+                .flatMap(bill -> bill.getSales().stream())
+                .mapToDouble(Sale::getPrice)
+                .sum();
+    }
 }

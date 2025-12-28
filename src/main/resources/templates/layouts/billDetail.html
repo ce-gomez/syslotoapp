@@ -30,13 +30,14 @@
                     <span th:text="${selectedBill.date}" class="text-body-small">Fecha y hora</span>
                 </div>
             </div>
-            <div class="flex flex-col gap-5">
+            <div class="flex flex-col gap-5 mb-3">
                 <form th:method="POST" th:action="@{/bills/{id}/sales(id=${selectedBill.billId})}" class="flex flex-col gap-5">
                     <div class="flex gap-3">
-                        <div th:replace="~{fragments/textField :: text-field('number', 'Número', '', 'text')}"></div>
-                        <div th:replace="~{fragments/textField :: text-field('price', 'Monto', '', 'text')}"></div>
+                        <div th:replace="~{fragments/textField :: text-field('number', 'Número', '', 'text', '2', '2', ${true})}"></div>
+                        <div th:replace="~{fragments/textField :: text-field('price', 'Monto', '', 'text', '', '', ${false})}"></div>
                     </div>
-                    <button type="submit" class="flex gap-3 py-2 w-full rounded-full bg-primary-container text-on-primary-container justify-center items-center">
+                    <button type="submit" class="flex gap-3 py-2 w-full rounded-full bg-primary-container
+                        text-on-primary-container justify-center items-center focus:ring-2 focus:ring-primary">
                         <i class="material-symbols-rounded">
                             send
                         </i>

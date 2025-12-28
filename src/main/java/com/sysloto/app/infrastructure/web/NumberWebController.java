@@ -44,6 +44,10 @@ public class NumberWebController {
         model.addAttribute("totalNumbers", numberDTOs.size());
         model.addAttribute("isInNumbersContext", true);
 
+        // Calcular total recaudado del día
+        double totalDailySales = statsService.calculateTotalDailySales();
+        model.addAttribute("totalDailySales", totalDailySales);
+
         if (numberId != null) {
             lotteryNumberRepository.findByNumberId(numberId).ifPresent(number -> {
                 double shiftSales = statsService.calculateShiftSales(number);
