@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "lotery_number", uniqueConstraints = @UniqueConstraint(columnNames = "number"))
+@Table(name = "lottery_number", uniqueConstraints = @UniqueConstraint(columnNames = "number_value"))
 public class LotteryNumber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

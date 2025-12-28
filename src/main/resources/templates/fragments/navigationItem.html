@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation Item</title>
+</head>
+<body>
+<a th:fragment="navigation-item(href, label, icon)"
+   th:href="${href}"
+   class="inline-flex whitespace-nowrap w-max gap-3 items-center px-4 py-3 rounded-full hover:bg-surface-container-high transition-colors">
+    <i class="material-symbols-rounded" th:text="${icon}">icon</i>
+    <span th:text="${label}" class="text-body-large">label</span>
+</a>
+</body>
+</html>

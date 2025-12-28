@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es" th:replace="~{layouts/base :: layout(~{::title}, ~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas diarias</title>
+</head>
+<body>
+    <section class="flex gap-3 mb-4 mr-4 max-h-screen w-full">
+        <div class="flex flex-col rounded-3xl bg-surface w-md">
+            <header class="flex flex-col px-1 pt-2 pb-3">
+                <form method="POST" th:action="@{/bills/s/{id}/create(id=${sellerId})}" class="flex justify-end items-centercenter p-1">
+                    <button type="submit" class="flex px-4 py-2 rounded-full bg-primary text-on-primary">
+                        <i class="material-symbols-rounded">add</i>
+                    </button>
+                </form>
+                <h2 class="flex justify-center text-headline-medium">Ventas diarias</h2>
+            </header>
+            <div class="flex px-4">
+                <span><span th:text="${count}">count</span> boletos</span>
+            </div>
+            <ul class="flex flex-col gap-1 px-2">
+                <li th:each="bill : ${bills}">
+                    <a th:href="@{/bills/s/{sId}/daily(sId=${sellerId}, billId=${bill.billId})}"
+                       th:classappend="${bill.billId == billId} ? 'bg-secondary-container text-on-secondary-container' : ''"
+                       class="flex items-center px-4 py-2 gap-4 rounded-2xl hover:bg-surface-container-high transition-colors">
+                        <i th:replace="~{fragments/ivatarIcon :: avatar-icon(${initials})}"></i>
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex flex-col">
+                                <span class="text-title-medium text-on-surface">
+                                    Boleto No <span th:text="${bill.billId}"></span>
+                                </span>
+                                <span class="text-body-medium" th:text="${bill.total}">C$ 50</span>
+                            </div>
+                            <span class="text-body-medium" th:text="${bill.time}">Fecha</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <th:block th:if="${selectedBill != null}">
+            <div th:replace="~{layouts/billDetail :: bill-detail}" class="flex-1"></div>
+        </th:block>
+
+        <th:block th:if="${selectedBill == null}">
+            <div th:replace="~{layouts/emptyPane :: empty-pane('No hay boletos seleccionados.', 'Selecciona un boleto para visualizar el detalle de venta.')}"></div>
+        </th:block>
+
+        <dialog id="errorDialog" class="rounded-3xl m-auto bg-surface-container-high text-on-surface p-0 border-none shadow-2xl w-80 overflow-hidden">
+            <div class="flex flex-col p-6 gap-4">
+                <div class="flex flex-col gap-2 text-center">
+                    <i class="material-symbols-rounded text-error text-4xl">error</i>
+                    <h3 class="text-title-large">Atención</h3>
+                    <p class="text-body-medium text-on-surface-variant" th:text="${error}">
+                        Mensaje de error predeterminado.
+                    </p>
+                </div>
+                <div class="flex justify-end">
+                    <button onclick="document.getElementById('errorDialog').close()"
+                            class="px-6 py-2 text-primary font-medium hover:bg-primary/10 rounded-full transition-colors">
+                        Aceptar
+                    </button>
+                </div>
+            </div>
+        </dialog>
+        <script th:if="${error != null}">
+            document.addEventListener('DOMContentLoaded', () => {
+                const modal = document.getElementById('errorDialog');
+                if (modal) {
+                    modal.showModal();
+                }
+            });
+        </script>
+    </section>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Empty Pane</title>
+</head>
+<body>
+<div th:fragment="empty-pane(title, support)" class="flex flex-col gap-4 py-16 justify-items-start items-center flex-1 bg-surface-container-low rounded-3xl">
+    <p class="text-body-large text-on-surface" th:text="${title}">No hay boletos seleccionados.</p>
+    <span class="text-body-medium" th:text="${support}">Selecciona un boleto para visualizar el detalle de venta.</span>
+</div>
+</body>
+</html>

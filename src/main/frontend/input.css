@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+@import "tailwindcss";
+@source "../resources/templates/**/*.{html,js}";
+
+@theme static {
+    --color-primary: #6E5E0E;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #F9E287;
+    --color-on-primary-container: #534600;
+    --color-primary-fixed: #F9E287;
+    --color-on-primary-fixed: #221B00;
+    --color-secondary: #665E40;
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #EEE2BC;
+    --color-on-secondary-container: #4E472A;
+    --color-tertiary: #43664E;
+    --color-on-tertiary: #ffffff;
+    --color-tertiary-container: #C5ECCE;
+    --color-on-tertiary-container: #2C4E38;
+    --color-tertiary-fixed: #C5ECCE;
+    --color-on-tertiary-fixed: #00210F;
+
+    --color-error: #BA1A1A;
+    --color-on-error: #ffffff;
+    --color-error-container: #FFDAD6;
+    --color-on-error-container: #93000A;
+
+    --color-surface: #FFF9EE;
+    --color-on-surface: #1E1B13;
+    --color-surface-variant: #DBE4EB;
+    --color-on-surface-variant: #4B4739;
+    --color-outline: #7C7767;
+    --color-outline-variant: #CDC6B4;
+
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #FAF3E5;
+    --color-surface-container: #F4EDDF;
+    --color-surface-container-high: #EEE7DA;
+    --color-surface-container-highest: #E8E2D4;
+}
+
+@utility text-headline-medium {
+    font-size: 1.75rem;
+    line-height: var(--text-4xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+    color: var(--color-on-surface);
+    font-family: 'Google Sans', sans-serif;
+}
+
+@utility text-body-large {
+    font-size: 1rem;
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+}
+
+@utility text-body-medium {
+    font-size: var(--text-sm);
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+}
+
+@utility text-body-small {
+    font-size: var(--text-xs);
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+}
+
+@utility text-label-large {
+    font-size: var(--text-sm);
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+@utility text-label-medium {
+    font-size: var(--text-xs);
+    line-height: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+@utility text-label-small {
+    font-size: 0.6875rem;
+    line-height: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+@utility text-title-large {
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+    color: var(--color-on-surface);
+}
+
+@utility text-title-medium {
+    font-size: 1rem;
+    line-height: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    font-style: normal;
+}
+
+@layer base {
+    body {
+        @apply bg-surface-container text-on-surface-variant;
+    }
+
+    button {
+        @apply outline-none cursor-pointer text-label-large;
+    }
+}

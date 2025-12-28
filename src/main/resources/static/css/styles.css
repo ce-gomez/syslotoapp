@@ -1,97 +1,217 @@
-/* Material Design 3 Tokens */
+/* Material Design 3 Tokens - Premium Dark (Gold/Dark) */
 :root {
   /* Key Colors */
-  --md-sys-color-primary: #006495;
-  --md-sys-color-on-primary: #ffffff;
-  --md-sys-color-primary-container: #cbebff;
-  --md-sys-color-on-primary-container: #001f32;
-  --md-sys-color-surface: #fbfcff;
-  --md-sys-color-on-surface: #191c1e;
-  --md-sys-color-surface-container: #edeef1;
-  --md-sys-color-outline: #71787e;
-  --md-sys-color-outline-variant: #c1c7ce;
+  --md-sys-color-primary: #d4af37;
+  /* Gold */
+  --md-sys-color-on-primary: #1e1e1e;
+  /* Dark Grey Text on Gold */
+  --md-sys-color-primary-container: #4a4020;
+  /* Darker Gold container */
+  --md-sys-color-on-primary-container: #ead689;
+  /* Light Gold text */
+  --md-sys-color-surface: #1e1e1e;
+  /* Main Background */
+  --md-sys-color-on-surface: #e0e0e0;
+  /* Light Text */
+  --md-sys-color-surface-container: #121212;
+  /* Darker Background (Body) */
+  --md-sys-color-surface-container-high: #2c2c2c;
+  /* Cards/Modals */
+  --md-sys-color-outline: #555555;
+  --md-sys-color-outline-variant: #333333;
 
   /* Typography */
   --md-sys-typescale-body-large-font: 'Roboto', sans-serif;
-  --md-sys-typescale-body-large-weight: 400;
-  --md-sys-typescale-body-large-size: 16px;
-  --md-sys-typescale-title-large-weight: 400;
-  --md-sys-typescale-title-large-size: 22px;
 
   /* Shape */
-  --md-sys-shape-corner-extra-small: 4px;
-  --md-sys-shape-corner-small: 8px;
   --md-sys-shape-corner-medium: 12px;
   --md-sys-shape-corner-large: 16px;
 
   /* Elevation */
-  --md-sys-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-  --md-sys-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --md-sys-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.3);
 }
 
-/* Base Styles */
-/* Base Styles */
 body {
   margin: 0;
   font-family: var(--md-sys-typescale-body-large-font);
   background-color: var(--md-sys-color-surface-container);
-  /* Background is now the container color (greyish) */
   color: var(--md-sys-color-on-surface);
   display: flex;
   height: 100vh;
+  overflow: hidden;
+  /* Prevent body scroll */
 }
 
 /* Layout */
 .layout-container {
   display: flex;
   width: 100%;
+  height: 100%;
 }
 
-/* Navigation Drawer (Sidebar) */
+/* Sidebar */
 .navigation-drawer {
-  width: 280px;
-  /* Slightly wider for elegance */
+  width: 250px;
   background-color: var(--md-sys-color-surface);
-  /* Sidebar is now Surface (White) */
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 16px;
   box-sizing: border-box;
-  /* Removed border right for cleaner look, relying on contrast */
+  border-right: 1px solid var(--md-sys-color-outline-variant);
+  z-index: 10;
 }
 
 .drawer-header {
-  padding: 24px 16px;
-  font-size: 24px;
+  padding: 16px 8px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-surface);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Seller List in Sidebar */
+.seller-list-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 16px;
+  border-top: 1px solid #333;
+  padding-top: 16px;
+}
+
+.nav-item-seller {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #aaa;
+  transition: background 0.2s;
+  justify-content: space-between;
+}
+
+.nav-item-seller:hover,
+.nav-item-seller.active {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.nav-item-seller .info {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
+.nav-item-seller .avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #333;
+  color: #888;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item-seller.active .avatar {
+  background: var(--md-sys-color-primary);
+  color: #000;
+}
+
+/* Seller Options Button */
+.seller-options-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.nav-item-seller:hover .seller-options-btn,
+.seller-options-btn:focus {
+  opacity: 1;
+  background: #444;
+}
+
+/* Popover/Dropdown for Edit */
+.popover-menu {
+  position: fixed;
+  background: var(--md-sys-color-surface-container-high);
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 4px;
+  display: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.popover-menu.show {
+  display: block;
+}
+
+.popover-item {
+  display: block;
+  padding: 8px 16px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.popover-item:hover {
+  background: #444;
+}
+
+
+/* Standard Nav Items */
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 16px 24px;
-  /* Larger hit area */
+  padding: 12px 16px;
   margin: 4px 0;
-  border-radius: 28px;
-  /* M3 Pill shape */
+  border-radius: 8px;
+  /* Slightly less rounded than pill */
   text-decoration: none;
   color: var(--md-sys-color-on-surface);
+  /* Greyish white */
   font-weight: 500;
   transition: background-color 0.2s;
+  /* Add icon gap if checking for svg later */
+  gap: 12px;
 }
 
 .nav-item:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .nav-item.active {
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+}
+
+/* Create Button (Registrar Ganador style) */
+.btn-create-main {
+  background-color: #3d3515;
+  /* Dark Gold/Brown */
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-primary);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* Main Content Area */
@@ -99,114 +219,179 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* Changed to column for header */
   overflow: hidden;
-  padding: 16px;
-  /* Padding AROUND the panel */
 }
 
-/* Top App Bar (Header) within the Panel? No, Header is usually above. 
-   But user asked for "Main section on a panel, header has logo and logout".
-   Let's make the Right Side = Header + Panel Container */
-
-.top-app-bar {
-  height: 64px;
+/* Header (Top Bar) */
+.top-header {
+  height: 60px;
+  background-color: var(--md-sys-color-surface);
+  /* or surface container */
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* Space between title and actions */
-  padding: 0 12px;
-  margin-bottom: 0px;
-  background-color: transparent;
-  /* Header background blends with body background */
-  color: var(--md-sys-color-on-surface);
+  justify-content: flex-end;
+  padding: 0 24px;
+  gap: 16px;
 }
 
-.headline-small {
-  font-size: 22px;
-  font-weight: 500;
-}
-
-/* The Panel Container */
-.content-panel {
-  flex: 1;
-  background-color: var(--md-sys-color-surface);
-  border-radius: var(--md-sys-shape-corner-large);
-  /* Rounded panel */
-  padding: 24px;
-  overflow-y: auto;
-  box-shadow: var(--md-sys-elevation-1);
-  /* Slight lift */
-  margin-top: 8px;
-  /* Spacer from header */
-}
-
-/* Components */
-/* Filled Button */
-.btn-filled {
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
-  border: none;
-  padding: 10px 24px;
-  border-radius: 100px;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: var(--md-sys-elevation-1);
-  transition: box-shadow 0.2s;
-  display: inline-flex;
+.shift-badge {
+  background-color: #333;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  text-decoration: none;
+  border: 1px solid #444;
 }
 
-.btn-filled:hover {
-  box-shadow: var(--md-sys-elevation-2);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-/* Text Field */
-.text-field {
+::-webkit-scrollbar-track {
+  background: var(--md-sys-color-surface-container);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Helper for 3-column layout */
+.content-grid {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.list-panel {
+  width: 350px;
+  background-color: var(--md-sys-color-surface-container);
+  border-right: 1px solid var(--md-sys-color-outline-variant);
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
-  position: relative;
+  padding: 24px;
+  overflow-y: auto;
 }
 
-.text-field input {
-  height: 56px;
-  border: 1px solid var(--md-sys-color-outline);
-  border-radius: var(--md-sys-shape-corner-extra-small);
-  padding: 0 16px;
-  font-size: 16px;
-  background-color: var(--md-sys-color-surface);
+.detail-panel {
+  flex: 1;
+  background-color: var(--md-sys-color-surface-container);
+  /* Or slightly different */
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* Align content top-left */
+}
+
+/* Card Styles */
+.card-bill-item {
+  background-color: #2a2a2a;
+  /* Dark Card */
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
   color: var(--md-sys-color-on-surface);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid transparent;
+  cursor: pointer;
   transition: border-color 0.2s;
 }
 
-.text-field input:focus {
-  outline: 2px solid var(--md-sys-color-primary);
-  border-color: transparent;
+.card-bill-item:hover,
+.card-bill-item.selected {
+  border-color: var(--md-sys-color-primary);
+  background-color: #333;
 }
 
-.text-field label {
-  position: absolute;
-  left: 12px;
-  top: -10px;
-  background-color: var(--md-sys-color-surface);
-  padding: 0 4px;
-  font-size: 12px;
-  color: var(--md-sys-color-primary);
-  font-weight: 500;
+.card-bill-item .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #3a4a3a;
+  /* Greenish/Grey */
+  color: #8fb58f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 12px;
 }
 
-/* Card */
-/* In the panel layout, the main surface IS the card usually, but we can keep card class for sub-sections if needed. 
-   Or simply use it for lists. */
-.card {
-  background-color: var(--md-sys-color-surface);
-  /* Same as panel, maybe add border if nested */
-  border-radius: var(--md-sys-shape-corner-medium);
-  padding: 0;
-  /* Let content drive padding */
-  /* border: 1px solid var(--md-sys-color-outline-variant); */
+/* Detail Views */
+.detail-card {
+  background-color: var(--md-sys-color-surface-container-high);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+/* Inputs */
+.input-group-dark {
+  display: flex;
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 24px;
+  padding: 4px;
+  margin-top: 16px;
+}
+
+.input-dark {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  flex: 1;
+  font-size: 16px;
+}
+
+.input-dark:focus {
+  outline: none;
+}
+
+.btn-send-gold {
+  background-color: var(--md-sys-color-primary);
+  color: black;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Pills / Tags */
+.tag-pill {
+  background-color: #333;
+  color: #ccc;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  margin-right: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.tag-pill.active {
+  background-color: var(--md-sys-color-primary);
+  color: black;
+  font-weight: 600;
 }
