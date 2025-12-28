@@ -8,25 +8,30 @@
 <div th:fragment="bill-detail" class="flex flex-col flex-1 bg-surface rounded-3xl">
     <header class="flex justify-between items-center pl-4 pr-1 py-2">
         <div class="flex items-center gap-2">
-            <h2 class="text-headline-medium">Boleto No 1</h2>
-            <span class="flex px-1 bg-surface-container-high rounded-sm text-body-medium">Schedule</span>
+            <h2 class="text-headline-medium">Boleto No <span th:text="${selectedBill.billId}">no</span></h2>
+            <span th:text="${selectedBill.schedule.name}" class="flex px-1 bg-surface-container-high rounded-sm text-body-medium">
+                Schedule
+            </span>
         </div>
         <div class="flex">
             <button th:replace="~{fragments/iconButton :: icon-button('delete')}"></button>
             <button th:replace="~{fragments/iconButton :: icon-button('more_vert')}"></button>
         </div>
     </header>
-    <div class="flex flex-col gap-4 flex-1 overflow-y-auto">
+    <div class="flex flex-col gap-4 overflow-y-auto">
         <div class="flex flex-col gap-4 px-4">
             <div class="flex gap-4 items-center">
-                <i th:replace="~{fragments/ivatarIcon :: avatar-icon('JP')}"></i>
+                <i th:replace="~{fragments/ivatarIcon :: avatar-icon(${selectedBill.seller.initials})}"></i>
                 <div class="flex flex-1 justify-between items-center">
-                    <h3 class="text-title-medium">Nombre Apellido</h3>
-                    <span class="text-body-small">Fecha y hora</span>
+                    <h3 class="text-title-medium">
+                        <span th:text="${selectedBill.seller.name}">Nombre</span>
+                        <span th:text="${selectedBill.seller.lastname}">Apellido</span>
+                    </h3>
+                    <span th:text="${selectedBill.date}" class="text-body-small">Fecha y hora</span>
                 </div>
             </div>
             <div class="flex flex-col gap-5">
-                <form class="flex flex-col gap-5">
+                <form th:method="POST" th:action="@{/bills/{id}/sales(id=${selectedBill.billId})}" class="flex flex-col gap-5">
                     <div class="flex gap-3">
                         <div th:replace="~{fragments/textField :: text-field('number', 'Número', '', 'text')}"></div>
                         <div th:replace="~{fragments/textField :: text-field('price', 'Monto', '', 'text')}"></div>
@@ -40,6 +45,21 @@
                 </form>
             </div>
         </div>
+    </div>
+    <div class="flex flex-col flex-1 gap-2 px-4">
+        <span class="text-body-medium"><span th:text="${salesCount}">count</span> números</span>
+        <ul class="flex flex-col gap-0.5">
+            <li th:each="sale : ${selectedBill.sales}"
+                class="flex items-center gap-4 px-4 py-2 rounded-sm bg-surface-container-low"
+            >
+                <i th:replace="~{fragments/textIcon :: text-icon(${sale.lotteryNumber.number})}"></i>
+                <div class="flex flex-col w-full">
+                    <span class="text-title-medium">Venta: C$ <span th:text="${sale.price}">Valor</span></span>
+                    <span>Desembolso: C$ <span th:text="${sale.disbursement}">120</span></span>
+                </div>
+                <div th:replace="~{fragments/iconButton :: icon-button('delete')}">Delete</div>
+            </li>
+        </ul>
     </div>
 </div>
 </body>

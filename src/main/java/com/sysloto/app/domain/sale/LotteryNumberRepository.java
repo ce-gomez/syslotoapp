@@ -7,4 +7,5 @@ public interface LotteryNumberRepository {
     Optional<LotteryNumber> findByNumber(String number);
     LotteryNumber save(LotteryNumber lotteryNumber);
     void delete(LotteryNumber lotteryNumber);
+    long count();
 }

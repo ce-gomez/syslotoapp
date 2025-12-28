@@ -1,4 +1,4 @@
-package com.sysloto.app.infrastructure.web.api;
+package com.sysloto.app.infrastructure.api;
 
 import com.sysloto.app.application.service.ScheduleFinder;
 import lombok.AllArgsConstructor;

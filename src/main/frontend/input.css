@@ -20,6 +20,11 @@
     --color-tertiary-fixed: #C5ECCE;
     --color-on-tertiary-fixed: #00210F;
 
+    --color-error: #BA1A1A;
+    --color-on-error: #ffffff;
+    --color-error-container: #FFDAD6;
+    --color-on-error-container: #93000A;
+
     --color-surface: #FFF9EE;
     --color-on-surface: #1E1B13;
     --color-surface-variant: #DBE4EB;
