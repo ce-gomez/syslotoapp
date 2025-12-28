@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es" th:replace="~{layouts/base :: layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Números de Lotería</title>
+</head>
+
+<body>
+    <section class="flex gap-3 mb-4 mr-4 max-h-screen w-full">
+        <!-- Left Panel - Number List -->
+        <div class="flex flex-col rounded-3xl bg-surface w-80">
+            <header class="flex flex-col px-1 pt-2 pb-3">
+<!--                <a th:href="@{/numbers/register}" class="flex justify-end items-center p-1">-->
+<!--                    <button type="button" class="flex px-4 py-2 rounded-full bg-primary text-on-primary">-->
+<!--                        <i class="material-symbols-rounded">add</i>-->
+<!--                    </button>-->
+<!--                </a>-->
+                <h2 class="flex justify-center text-headline-medium">Números</h2>
+                <p class="flex justify-center text-body-medium">Lista de números de lotería</p>
+            </header>
+
+            <!-- Total Daily Sales Banner -->
+            <div class="flex flex-col gap-1 px-4 py-3 mx-2 mb-2 rounded-2xl bg-primary-container">
+                <span class="text-body-small text-on-primary-container">Total Recaudado Hoy</span>
+                <span class="text-headline-medium text-on-primary-container"
+                    th:text="'$' + ${#numbers.formatDecimal(totalDailySales, 1, 2)}">$0.00</span>
+            </div>
+
+            <div class="flex px-4">
+                <span><span th:text="${totalNumbers}">0</span> números</span>
+            </div>
+
+            <ul class="flex flex-col gap-1 px-2 overflow-y-auto">
+                <li th:each="number : ${numbers}">
+                    <a th:href="@{/numbers(numberId=${number.numberId})}"
+                        th:classappend="${number.numberId == numberId} ? 'bg-secondary-container text-on-secondary-container' : ''"
+                        class="flex flex-col px-4 py-3 gap-2 rounded-2xl hover:bg-surface-container-high transition-colors">
+                        <div class="flex items-center justify-between">
+                            <span class="text-title-medium text-on-surface" th:text="${number.number}">00</span>
+                            <span class="text-body-medium"
+                                th:text="'Límite: $' + ${#numbers.formatDecimal(number.limit, 1, 2)}">Límite:
+                                $250.00</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between items-center text-body-small">
+                                <span>Turno:</span>
+                                <span th:text="'$' + ${#numbers.formatDecimal(number.shiftSales, 1, 2)}">$0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center text-body-small">
+                                <span>Día:</span>
+                                <span th:text="'$' + ${#numbers.formatDecimal(number.dailySales, 1, 2)}">$0.00</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Right Panel - Edit Form or Empty State -->
+        <th:block th:if="${selectedNumber != null}">
+            <div class="flex flex-col flex-1 rounded-3xl bg-surface p-6 gap-6">
+                <header class="flex flex-col">
+                    <h2 class="text-headline-medium">
+                        Número <span th:text="${selectedNumber.number}">00</span>
+                    </h2>
+                    <span class="text-body-medium text-on-surface-variant">Modifique el límite de venta del número</span>
+                </header>
+
+                <!-- Statistics Cards -->
+                <div class="flex gap-4 flex-wrap">
+                    <div class="flex flex-col p-4 rounded-2xl bg-tertiary-container flex-1">
+                        <span class="text-body-medium text-on-tertiary-container">Límite Actual</span>
+                        <span class="text-title-large text-on-tertiary-container"
+                            th:text="'$' + ${#numbers.formatDecimal(selectedNumber.limit, 1, 2)}">$250.00</span>
+                    </div>
+                    <div class="flex flex-col p-4 rounded-2xl bg-primary-container flex-1">
+                        <span class="text-body-medium text-on-primary-container">Vendido - Turno</span>
+                        <span class="text-title-large text-on-primary-container"
+                            th:text="'$' + ${#numbers.formatDecimal(selectedNumber.shiftSales, 1, 2)}">$0.00</span>
+                        <span class="text-body-small text-on-primary-container"
+                            th:text="'Restante: $' + ${#numbers.formatDecimal(selectedNumber.shiftRemaining, 1, 2)}">Restante:
+                            $250.00</span>
+                    </div>
+                    <div class="flex flex-col p-4 rounded-2xl bg-primary-container flex-1">
+                        <span class="text-body-medium text-on-primary-container">Vendido - Día</span>
+                        <span class="text-title-large text-on-primary-container"
+                            th:text="'$' + ${#numbers.formatDecimal(selectedNumber.dailySales, 1, 2)}">$0.00</span>
+                        <span class="text-body-small text-on-primary-container"
+                            th:text="'Restante: $' + ${#numbers.formatDecimal(selectedNumber.dailyRemaining, 1, 2)}">Restante:
+                            $250.00</span>
+                    </div>
+                </div>
+
+                <form method="POST" th:action="@{/numbers/edit/{id}(id=${selectedNumber.numberId})}"
+                    class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-2">
+                        <label for="limit" class="text-body-medium text-on-surface-variant pl-4">Monto Límite</label>
+                        <input type="number" id="limit" name="limit" th:value="${selectedNumber.limit}" step="0.01"
+                            min="0" required
+                            class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                            placeholder="Ej: 250.00" />
+                    </div>
+
+                    <div class="flex gap-3 justify-end">
+                        <a th:href="@{/numbers}"
+                            class="px-6 py-3 rounded-full text-primary font-medium hover:bg-primary/10 transition-colors">
+                            Cancelar
+                        </a>
+                        <button type="submit"
+                            class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary hover:bg-surface-container-high transition-colors">
+                            <i class="material-symbols-rounded">send</i>
+                            <span class="text-label-large">Actualizar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </th:block>
+
+        <th:block th:if="${selectedNumber == null}">
+            <div
+                th:replace="~{layouts/emptyPane :: empty-pane('No hay número seleccionado.', 'Selecciona un número para editar su límite.')}">
+            </div>
+        </th:block>
+    </section>
+</body>
+
+</html>
