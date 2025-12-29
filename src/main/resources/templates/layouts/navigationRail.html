@@ -8,8 +8,8 @@
 
 <body>
     <aside th:fragment="navigation-rail" class="flex flex-col gap-4 pt-3 px-3 h-full">
-        <button type="button"
-            class="flex gap-3 p-4 rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed text-label-large w-fit">
+        <button type="button" onclick="document.getElementById('winningNumberDialog').showModal()"
+            class="flex gap-3 p-4 rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed text-label-large w-fit hover:bg-tertiary-fixed-dim transition-colors cursor-pointer">
             <i class="material-symbols-rounded">editor_choice</i>
             Sortear
         </button>
@@ -36,6 +36,7 @@
                 </ul>
             </details>
         </nav>
+        <div th:replace="~{fragments/winningNumberDialog :: winning-number-dialog}"></div>
     </aside>
 </body>
 
