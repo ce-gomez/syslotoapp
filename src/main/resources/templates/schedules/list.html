@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es" th:replace="~{layouts/configBase :: layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración de Turnos</title>
+</head>
+
+<body>
+    <section class="flex gap-3 max-h-screen w-full overflow-hidden">
+        <!-- Left Panel - Schedule List -->
+        <div class="flex flex-col rounded-3xl bg-surface w-md">
+            <header class="flex flex-col px-1 pt-2 pb-3">
+                <a th:href="@{/config/schedules/register}" class="flex justify-end items-center p-1">
+                    <button type="button" class="flex px-4 py-2 rounded-full bg-primary text-on-primary">
+                        <i class="material-symbols-rounded">add</i>
+                    </button>
+                </a>
+                <h2 class="flex justify-center text-headline-medium">Turnos</h2>
+            </header>
+
+            <div class="flex px-4">
+                <span><span th:text="${schedules.size()}">0</span> turnos</span>
+            </div>
+
+            <ul class="flex flex-col gap-1 px-2 mt-2">
+                <li th:each="schedule : ${schedules}">
+                    <a th:href="@{/config/schedules(scheduleId=${schedule.scheduleId})}"
+                        th:classappend="${schedule.scheduleId == scheduleId} ? 'bg-secondary-container text-on-secondary-container' : ''"
+                        class="flex items-center px-4 py-3 gap-4 rounded-2xl hover:bg-surface-container-high transition-colors">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container">
+                            <i class="material-symbols-rounded">schedule</i>
+                        </div>
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex flex-col">
+                                <span class="text-title-medium text-on-surface" th:text="${schedule.name}">Turno</span>
+                                <span class="text-body-medium">
+                                    <span th:text="${schedule.specification.start}">00:00</span> -
+                                    <span th:text="${schedule.specification.end}">00:00</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Right Panel - Edit Form or Empty State -->
+        <th:block th:if="${selectedSchedule != null}">
+            <div class="flex flex-col flex-1 rounded-3xl bg-surface p-6 gap-6">
+                <header class="flex flex-col gap-2">
+                    <h2 class="text-headline-medium">Editar Turno</h2>
+                    <p class="text-body-medium text-on-surface-variant">Modifique el nombre y horario del turno</p>
+                </header>
+
+                <form method="POST" th:action="@{/config/schedules/edit/{id}(id=${selectedSchedule.scheduleId})}"
+                    class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-2">
+                        <label for="name" class="text-body-medium text-on-surface-variant pl-4">Nombre</label>
+                        <input type="text" id="name" name="name" th:value="${selectedSchedule.name}" required
+                            class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                            placeholder="Ingrese el nombre" />
+                    </div>
+
+                    <div class="flex flex-row gap-4">
+                        <div class="flex flex-col gap-2 flex-1">
+                            <label for="startTime" class="text-body-medium text-on-surface-variant pl-4">Hora
+                                Inicio</label>
+                            <input type="time" id="startTime" name="startTime"
+                                th:value="${selectedSchedule.specification.start}" required
+                                class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full" />
+                        </div>
+
+                        <div class="flex flex-col gap-2 flex-1">
+                            <label for="endTime" class="text-body-medium text-on-surface-variant pl-4">Hora Fin</label>
+                            <input type="time" id="endTime" name="endTime"
+                                th:value="${selectedSchedule.specification.end}" required
+                                class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full" />
+                        </div>
+                    </div>
+
+                    <div th:if="${param.error}"
+                        class="px-4 py-2 rounded-xl bg-error-container text-on-error-container text-body-medium">
+                        <span th:text="${param.error}">Error message</span>
+                    </div>
+
+                    <div class="flex gap-3 justify-end mt-4">
+                        <a th:href="@{/config/schedules}"
+                            class="px-6 py-3 rounded-full text-primary font-medium hover:bg-primary/10 transition-colors">
+                            Cancelar
+                        </a>
+                        <button type="submit"
+                            class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary hover:shadow-lg transition-all">
+                            <i class="material-symbols-rounded">save</i>
+                            <span class="text-label-large">Guardar Cambios</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </th:block>
+
+        <th:block th:if="${selectedSchedule == null}">
+            <div
+                th:replace="~{layouts/emptyPane :: empty-pane('No hay turno seleccionado.', 'Selecciona un turno para editar su configuración.')}">
+            </div>
+        </th:block>
+    </section>
+</body>
+
+</html>
