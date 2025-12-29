@@ -15,6 +15,8 @@
         </button>
         <nav class="flex flex-col flex-1">
             <a
+                th:replace="~{fragments/navigationItem :: navigation-item('/', 'Inicio', 'home', ${isInHomeContext ?: false})}"></a>
+            <a
                 th:replace="~{fragments/navigationItem :: navigation-item('/sellers', 'Vendedores', 'group', ${isInSellersContext ?: false})}"></a>
             <a
                 th:replace="~{fragments/navigationItem :: navigation-item('/numbers', 'Números', 'numbers', ${isInNumbersContext ?: false})}"></a>
