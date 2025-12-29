@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>app-bar</title>
+  <meta charset="UTF-8">
+  <title>app-bar</title>
 </head>
+
 <body>
   <header class="flex justify-between items-center px-4 py-2" th:fragment="appbar">
     <h1 class="text-headline-medium">Sysloto</h1>
     <div class="flex items-center gap-2">
       <span th:text="${currentScheduleName}"
-            class="px-4 py-2 rounded-2xl bg-tertiary-container text-on-tertiary-container text-label-large"
-            title="Turno actual"
-      >Diurno</span>
+        class="px-4 py-2 rounded-2xl bg-tertiary-container text-on-tertiary-container text-label-large"
+        title="Turno actual">Diurno</span>
       <div class="flex">
-        <button th:replace="~{fragments/iconButton :: icon-button('settings')}"></button>
+        <a th:href="@{/config/schedules}">
+          <button th:replace="~{fragments/iconButton :: icon-button('settings')}"></button>
+        </a>
         <button th:replace="~{fragments/iconButton :: icon-button('logout')}"></button>
       </div>
     </div>
   </header>
 </body>
+
 </html>
