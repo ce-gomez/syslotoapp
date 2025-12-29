@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Winning Number Dialog</title>
+</head>
+
+<body>
+    <dialog th:fragment="winning-number-dialog" id="winningNumberDialog"
+        class="rounded-3xl bg-surface p-6 backdrop:bg-black/50 backdrop:backdrop-blur-sm w-full max-w-sm shadow-xl m-auto">
+        <form method="POST" th:action="@{/winning-number/register}" class="flex flex-col gap-6">
+            <header class="flex flex-col gap-2">
+                <h2 class="text-headline-small text-on-surface">Registrar Ganador</h2>
+                <p class="text-body-medium text-on-surface-variant">Ingrese el número ganador para el turno actual.</p>
+                <div th:if="${errorMessage}"
+                    class="p-3 rounded-xl bg-error-container text-on-error-container text-body-medium">
+                    <span th:text="${errorMessage}">Error message</span>
+                </div>
+                <div th:if="${successMessage}"
+                    class="p-3 rounded-xl bg-primary-container text-on-primary-container text-body-medium">
+                    <span th:text="${successMessage}">Success message</span>
+                </div>
+            </header>
+
+            <div class="flex flex-col gap-2">
+                <label for="winningNumber" class="text-body-medium text-on-surface-variant pl-4">Número Ganador</label>
+                <input type="text" id="winningNumber" name="number" required autofocus
+                    class="flex p-4 text-headline-medium text-center border text-on-surface placeholder:text-on-surface-variant border-outline rounded-xl outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full tracking-widest"
+                    placeholder="00" maxlength="2" inputmode="numeric" pattern="[0-9]*" />
+            </div>
+
+            <div class="flex gap-3 justify-end">
+                <button type="button" onclick="document.getElementById('winningNumberDialog').close()"
+                    class="px-5 py-2.5 rounded-full text-primary font-medium hover:bg-primary/10 transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="px-5 py-2.5 rounded-full bg-primary text-on-primary hover:shadow-lg transition-all font-medium">
+                    Confirmar
+                </button>
+            </div>
+        </form>
+    </dialog>
+    <script th:if="${errorMessage} or ${successMessage}">
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('winningNumberDialog').showModal();
+        });
+    </script>
+</body>
+
+</html>
