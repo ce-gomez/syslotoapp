@@ -15,6 +15,7 @@ public class BillingService {
     private final ScheduleFinder scheduleFinder;
     private final SellerRepository sellerRepository;
     private final LotteryNumberRepository lotteryNumberRepository;
+    private final LotteryNumberStatsService lotteryNumberStatsService;
 
     @Transactional
     public Bill registerNewBill(Long sellerId) {
@@ -30,6 +31,15 @@ public class BillingService {
         var bill = billRepository.findByBillId(billId).orElseThrow();
         var lotteryNumber = lotteryNumberRepository.findByNumber(number)
                 .orElseThrow(() -> new IllegalArgumentException("Numero no encontrado"));
+
+        double currentSales = lotteryNumberStatsService.calculateShiftSales(lotteryNumber);
+        if (currentSales + price > lotteryNumber.getLimit()) {
+            var scheduleName = scheduleFinder.findCurrentSchedule()
+                    .map(com.sysloto.app.domain.schedule.Schedule::getName)
+                    .orElse("Actual");
+            throw new IllegalArgumentException("Ha alcanzado el límite del número en el turno " + scheduleName);
+        }
+
         bill.addSale(lotteryNumber, price, bill.getSeller().getFactor());
         return billRepository.save(bill);
     }
