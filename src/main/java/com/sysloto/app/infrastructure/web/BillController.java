@@ -94,10 +94,27 @@ public class BillController {
         try {
             Bill bill = billingService.createNewSale(billId, number, price);
             return "redirect:/bills/s/" + bill.getSeller().getSellerId() + "/daily?billId=" + bill.getBillId();
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/bills";
+            // Retrieve bill safely to redirect back to context
+            var bill = billRepository.findByBillId(billId).orElse(null);
+            if (bill != null) {
+                return "redirect:/bills/s/" + bill.getSeller().getSellerId() + "/daily?billId=" + billId;
+            }
+            return "redirect:/bills/s/" + sellerRepository.findAll().get(0).getSellerId() + "/daily";
         }
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteBill(@PathVariable Long id, @RequestParam Long sellerId) {
+        billingService.deleteBill(id);
+        return "redirect:/bills/s/" + sellerId + "/daily";
+    }
+
+    @PostMapping("/{billId}/sales/{saleId}/delete")
+    public String deleteSale(@PathVariable Long billId, @PathVariable Long saleId) {
+        Bill bill = billingService.deleteSale(billId, saleId);
+        return "redirect:/bills/s/" + bill.getSeller().getSellerId() + "/daily?billId=" + billId;
     }
 
     @GetMapping("/{id}")
