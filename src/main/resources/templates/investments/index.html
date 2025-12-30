@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" th:replace="~{layouts/base :: layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inversiones</title>
+</head>
+
+<body>
+    <section class="flex gap-3 mb-4 mr-4 max-h-screen w-full">
+        <div
+            class="flex flex-col rounded-3xl bg-surface w-md max-w-md h-full overflow-hidden border border-outline-variant">
+            <header class="flex flex-col gap-4 p-4 pb-2 bg-surface">
+                <h2 class="text-headline-medium">Inversiones</h2>
+
+                <!-- Filters -->
+                <form id="filterForm" th:action="@{/investments}" method="get" class="flex flex-col gap-3">
+                    <!-- Date Picker -->
+                    <div class="flex flex-col gap-1">
+                        <label for="date" class="text-label-medium text-on-surface-variant pl-1">Fecha</label>
+                        <input type="date" id="date" name="date" th:value="${selectedDate}"
+                            onchange="document.getElementById('filterForm').submit()"
+                            class="flex p-2 px-3 text-body-medium border text-on-surface border-outline rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full" />
+                    </div>
+
+                    <!-- Schedule Chips -->
+                    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                        <input type="hidden" name="scheduleId" id="scheduleIdInput" th:value="${selectedScheduleId}">
+                        <input type="hidden" name="billId" th:if="${selectedBillId}" th:value="${selectedBillId}">
+
+                        <!-- 'Todos' Chip -->
+                        <a th:href="@{/investments(date=${selectedDate})}"
+                            th:classappend="${selectedScheduleId == null} ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'"
+                            class="flex items-center px-3 py-1.5 rounded-lg text-label-large font-medium transition-colors whitespace-nowrap cursor-pointer select-none">
+                            Todos
+                        </a>
+
+                        <!-- Dynamic Schedule Chips -->
+                        <a th:each="schedule : ${schedules}"
+                            th:href="@{/investments(date=${selectedDate}, scheduleId=${schedule.scheduleId})}"
+                            th:classappend="${selectedScheduleId == schedule.scheduleId} ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'"
+                            class="flex items-center px-3 py-1.5 rounded-lg text-label-large font-medium transition-colors whitespace-nowrap cursor-pointer select-none">
+                            <span th:text="${schedule.name}">Turno</span>
+                        </a>
+                    </div>
+                </form>
+            </header>
+
+            <!-- Bills List -->
+            <div class="flex px-4 py-2 border-t border-outline-variant/50">
+                <span class="text-label-medium text-on-surface-variant"><span th:text="${bills.size()}">0</span> boletos
+                    encontrados</span>
+            </div>
+
+            <ul class="flex flex-col gap-1 px-2 overflow-y-auto flex-1 pb-4">
+                <li th:if="${bills.isEmpty()}"
+                    class="flex flex-col items-center justify-center py-10 text-on-surface-variant">
+                    <i class="material-symbols-rounded text-4xl mb-2">search_off</i>
+                    <p class="text-center text-body-medium">No hay inversiones con estos filtros.</p>
+                </li>
+
+                <li th:each="bill : ${bills}">
+                    <a th:href="@{/investments(date=${selectedDate}, scheduleId=${selectedScheduleId}, billId=${bill.billId})}"
+                        th:classappend="${bill.billId == selectedBillId} ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-low hover:bg-surface-container-high text-on-surface'"
+                        class="flex items-center px-4 py-3 gap-3 rounded-2xl transition-colors cursor-pointer group">
+
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex shrink-0 items-center justify-center font-bold text-title-medium group-hover:scale-110 transition-transform">
+                            <span
+                                th:text="${bill.seller.name.substring(0,1) + bill.seller.lastname.substring(0,1)}">VN</span>
+                        </div>
+
+                        <div class="flex justify-between items-center w-full min-w-0">
+                            <div class="flex flex-col min-w-0">
+                                <span class="text-title-small font-medium truncate">
+                                    <span th:text="${bill.seller.name + ' ' + bill.seller.lastname}">Vendedor</span>
+                                </span>
+                                <span class="text-body-small opacity-80">
+                                    Boleto #<span th:text="${bill.billId}">000</span>
+                                </span>
+                            </div>
+                            <div class="flex flex-col items-end shrink-0 pl-2">
+                                <span class="text-label-large font-bold whitespace-nowrap"
+                                    th:text="${'C$ ' + #numbers.formatDecimal(bill.total, 0, 'COMMA', 0, 'POINT')}">$0</span>
+                                <span class="text-label-small opacity-70" th:text="${bill.schedule.name}">Turno</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Detail Pane -->
+        <th:block th:if="${selectedBill != null}">
+            <div th:replace="~{layouts/billDetailReadOnly :: bill-detail-readonly}"></div>
+        </th:block>
+
+        <th:block th:if="${selectedBill == null}">
+            <div
+                th:replace="~{layouts/emptyPane :: empty-pane('Seleccione un boleto', 'Seleccione un boleto de la lista para ver el detalle de la inversión.')}">
+            </div>
+        </th:block>
+
+    </section>
+</body>
+
+</html>

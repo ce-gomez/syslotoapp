@@ -25,7 +25,7 @@
                 <button th:replace="~{fragments/iconButton :: icon-button('more_vert')}"></button>
             </div>
         </header>
-        <div class="flex flex-col gap-4 overflow-y-auto">
+        <div class="flex flex-col gap-4">
             <div class="flex flex-col gap-4 px-4">
                 <div class="flex gap-4 items-center">
                     <i th:replace="~{fragments/ivatarIcon :: avatar-icon(${selectedBill.seller.initials})}"></i>
@@ -59,15 +59,17 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col flex-1 gap-2 px-4">
+        <div class="flex flex-col flex-1 gap-2 px-4 overflow-y-auto scrollbar-hide pb-4">
             <span class="text-body-medium"><span th:text="${salesCount}">count</span> números</span>
-            <ul class="flex flex-col gap-0.5">
+            <ul class="flex flex-col gap-1">
                 <li th:each="sale : ${selectedBill.sales}"
                     class="flex items-center gap-4 px-4 py-2 rounded-sm bg-surface-container-low">
                     <i th:replace="~{fragments/textIcon :: text-icon(${sale.lotteryNumber.number})}"></i>
                     <div class="flex flex-col w-full">
-                        <span class="text-title-medium">Venta: C$ <span th:text="${sale.price}">Valor</span></span>
-                        <span>Desembolso: C$ <span th:text="${sale.disbursement}">120</span></span>
+                        <span class="text-title-medium font-bold">Venta: C$ <span
+                                th:text="${sale.price}">Valor</span></span>
+                        <span class="text-body-small opacity-80">Desembolso: C$ <span
+                                th:text="${sale.disbursement}">120</span></span>
                     </div>
                     <form th:method="POST"
                         th:action="@{/bills/{billId}/sales/{saleId}/delete(billId=${selectedBill.billId}, saleId=${sale.saleId})}"

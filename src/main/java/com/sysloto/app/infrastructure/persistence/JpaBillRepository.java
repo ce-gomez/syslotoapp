@@ -21,5 +21,14 @@ interface JpaBillRepository extends ListCrudRepository<Bill, Long>, BillReposito
 
     @Override
     @Query("SELECT b FROM Bill b inner join Seller s on s.sellerId = b.seller.sellerId WHERE s.sellerId = :sellerId AND b.schedule.scheduleId = :scheduleId AND CAST(b.date AS localdate) = :date")
-    List<Bill> findBySellerScheduleDate(@Param("sellerId") Long sellerId, @Param("scheduleId") Long scheduleId, @Param("date") java.time.LocalDate date);
+    List<Bill> findBySellerScheduleDate(@Param("sellerId") Long sellerId, @Param("scheduleId") Long scheduleId,
+            @Param("date") java.time.LocalDate date);
+
+    @Override
+    @Query("SELECT b FROM Bill b WHERE CAST(b.date AS localdate) = :date")
+    List<Bill> findByDate(@Param("date") java.time.LocalDate date);
+
+    @Override
+    @Query("SELECT b FROM Bill b WHERE CAST(b.date AS localdate) = :date AND b.schedule.scheduleId = :scheduleId")
+    List<Bill> findByDateAndSchedule(@Param("date") java.time.LocalDate date, @Param("scheduleId") Long scheduleId);
 }

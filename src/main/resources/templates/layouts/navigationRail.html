@@ -20,6 +20,8 @@
                 th:replace="~{fragments/navigationItem :: navigation-item('/sellers', 'Vendedores', 'group', ${isInSellersContext ?: false})}"></a>
             <a
                 th:replace="~{fragments/navigationItem :: navigation-item('/numbers', 'Números', 'numbers', ${isInNumbersContext ?: false})}"></a>
+            <a
+                th:replace="~{fragments/navigationItem :: navigation-item('/investments', 'Inversiones', 'monitoring', ${isInInvestmentsContext ?: false})}"></a>
             <details class="group" open>
                 <summary
                     class="flex items-center px-4 py-2 cursor-pointer text-on-surface-variant hover:bg-surface-container-high rounded-full list-none">
