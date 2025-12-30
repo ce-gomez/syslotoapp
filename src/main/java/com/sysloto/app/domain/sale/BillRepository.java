@@ -14,6 +14,10 @@ public interface BillRepository {
 
     List<Bill> findBySellerScheduleDate(Long sellerId, Long scheduleId, LocalDate date);
 
+    List<Bill> findByDate(LocalDate date);
+
+    List<Bill> findByDateAndSchedule(LocalDate date, Long scheduleId);
+
     Bill save(Bill bill);
 
     List<Bill> findAll();

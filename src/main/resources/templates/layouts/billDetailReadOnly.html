@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bill Detail Read Only</title>
+</head>
+
+<body>
+    <div th:fragment="bill-detail-readonly"
+        class="flex flex-col flex-1 bg-surface rounded-3xl h-full border border-outline-variant">
+        <header class="flex justify-between items-center pl-4 pr-4 py-3 border-b border-outline-variant">
+            <div class="flex items-center gap-2">
+                <h2 class="text-headline-small">Boleto No <span th:text="${selectedBill.billId}">no</span></h2>
+                <span th:text="${selectedBill.schedule.name}"
+                    class="flex px-2 py-0.5 bg-surface-container-high rounded-full text-label-medium text-on-surface-variant">
+                    Schedule
+                </span>
+            </div>
+            <!-- No Actions for Read Only -->
+        </header>
+
+        <div class="flex flex-col gap-4 overflow-y-auto flex-1 p-4">
+            <!-- Header Info -->
+            <div class="flex gap-4 items-center p-4 bg-surface-container-low rounded-xl">
+                <i th:replace="~{fragments/ivatarIcon :: avatar-icon(${selectedBill.seller.initials})}"></i>
+                <div class="flex flex-1 justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-title-medium font-medium">
+                            <span th:text="${selectedBill.seller.name}">Nombre</span>
+                            <span th:text="${selectedBill.seller.lastname}">Apellido</span>
+                        </span>
+                        <span class="text-body-small text-on-surface-variant">Vendedor</span>
+                    </div>
+                    <span th:text="${selectedBill.date}"
+                        class="text-body-medium text-on-surface-variant font-mono">Fecha y hora</span>
+                </div>
+            </div>
+
+            <!-- Stats/Summary -->
+            <div class="grid grid-cols-2 gap-4">
+                <div
+                    class="p-3 bg-secondary-container text-on-secondary-container rounded-lg flex flex-col items-center">
+                    <span class="text-label-medium">Total Venta</span>
+                    <span class="text-title-large font-bold">C$ <span
+                            th:text="${#numbers.formatDecimal(selectedBill.total, 1, 'COMMA', 2, 'POINT')}">0.00</span></span>
+                </div>
+                <div class="p-3 bg-surface-container-high text-on-surface rounded-lg flex flex-col items-center">
+                    <span class="text-label-medium">Números Jugados</span>
+                    <span class="text-title-large font-bold" th:text="${salesCount}">0</span>
+                </div>
+            </div>
+
+
+            <!-- Sales List -->
+            <div class="flex flex-col gap-3 mt-4">
+                <div class="flex items-center justify-between px-1">
+                    <h3 class="text-title-medium text-on-surface">Detalle de Números</h3>
+                    <span
+                        class="text-label-medium text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded-full"
+                        th:text="${salesCount + ' números'}">0 números</span>
+                </div>
+                <ul class="flex flex-col gap-2">
+                    <li th:each="sale : ${selectedBill.sales}"
+                        class="flex items-center gap-4 px-4 py-3 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/30 transition-colors">
+
+                        <div class="w-12 h-12 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center text-headline-small font-bold shrink-0 shadow-sm"
+                            th:text="${sale.lotteryNumber.number}">00</div>
+
+                        <div class="flex flex-col flex-1 gap-1">
+                            <div class="flex justify-between items-center">
+                                <span class="text-label-medium text-on-surface-variant">Monto apostado</span>
+                                <span class="text-title-medium font-bold text-on-surface">C$ <span
+                                        th:text="${#numbers.formatDecimal(sale.price, 1, 'COMMA', 2, 'POINT')}">Valor</span></span>
+                            </div>
+                            <div class="flex justify-between items-center bg-tertiary/5 px-2 py-1 rounded-lg">
+                                <span class="text-body-small text-on-surface-variant font-medium">Premio
+                                    potencial</span>
+                                <span class="text-title-small font-bold text-tertiary">C$ <span
+                                        th:text="${#numbers.formatDecimal(sale.disbursement, 1, 'COMMA', 2, 'POINT')}">120</span></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Total Summary -->
+                <div th:if="${not #lists.isEmpty(selectedBill.sales)}"
+                    class="mt-4 p-4 rounded-2xl bg-primary-container/30 border border-primary/10 flex justify-between items-center">
+                    <span class="text-title-medium font-medium text-on-primary-container">Total del Boleto</span>
+                    <span class="text-headline-small font-bold text-primary">C$ <span
+                            th:text="${#numbers.formatDecimal(selectedBill.total, 1, 'COMMA', 2, 'POINT')}">0.00</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

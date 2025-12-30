@@ -20,6 +20,7 @@ public class HomeController {
         model.addAttribute("totalDailySales", financialStatsService.calculateTotalDailySales());
         model.addAttribute("totalPayout", financialStatsService.calculateTotalPayout());
         model.addAttribute("winningDetails", financialStatsService.getWinningDetails());
+        model.addAttribute("sellerStats", financialStatsService.getSellerStats());
         return "index";
     }
 }
