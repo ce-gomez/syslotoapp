@@ -34,4 +34,16 @@ public class BillingService {
         return billRepository.save(bill);
     }
 
+    @Transactional
+    public void deleteBill(Long billId) {
+        billRepository.deleteById(billId);
+    }
+
+    @Transactional
+    public Bill deleteSale(Long billId, Long saleId) {
+        var bill = billRepository.findByBillId(billId).orElseThrow();
+        bill.getSales().removeIf(sale -> sale.getSaleId().equals(saleId));
+        return billRepository.save(bill);
+    }
+
 }
