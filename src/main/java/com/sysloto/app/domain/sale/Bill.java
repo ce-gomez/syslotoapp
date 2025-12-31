@@ -42,12 +42,13 @@ public class Bill {
     }
 
     public double getTotal() {
-        return sales.stream().mapToDouble(Sale::getTotal).sum();
+        return sales.stream().mapToDouble(Sale::getPrice).sum();
     }
 
     public void addSale(LotteryNumber lotteryNumber, double price, double factor) {
         if (sales.stream().map(Sale::getLotteryNumber).toList().contains(lotteryNumber)) {
-            sales.stream().filter(sale -> sale.getLotteryNumber().equals(lotteryNumber)).findFirst().get().setPrice(price);
+            sales.stream().filter(sale -> sale.getLotteryNumber().equals(lotteryNumber)).findFirst().get()
+                    .setPrice(price);
         } else {
             sales.add(Sale.of(price, factor, lotteryNumber));
         }

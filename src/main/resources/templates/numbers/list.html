@@ -24,7 +24,7 @@
             <div class="flex flex-col gap-1 px-4 py-3 mx-2 mb-2 rounded-2xl bg-primary-container">
                 <span class="text-body-small text-on-primary-container">Total Recaudado Hoy</span>
                 <span class="text-headline-medium text-on-primary-container"
-                    th:text="'$' + ${#numbers.formatDecimal(totalDailySales, 1, 2)}">$0.00</span>
+                    th:text="'C$' + ${#numbers.formatDecimal(totalDailySales, 1, 2)}">C$0.00</span>
             </div>
 
             <div class="flex px-4">
@@ -39,17 +39,17 @@
                         <div class="flex items-center justify-between">
                             <span class="text-title-medium text-on-surface" th:text="${number.number}">00</span>
                             <span class="text-body-medium"
-                                th:text="'Límite: $' + ${#numbers.formatDecimal(number.limit, 1, 2)}">Límite:
-                                $250.00</span>
+                                th:text="'Límite: C$' + ${#numbers.formatDecimal(number.limit, 1, 2)}">Límite:
+                                C$250.00</span>
                         </div>
                         <div class="flex flex-col gap-1">
                             <div class="flex justify-between items-center text-body-small">
                                 <span>Turno:</span>
-                                <span th:text="'$' + ${#numbers.formatDecimal(number.shiftSales, 1, 2)}">$0.00</span>
+                                <span th:text="'C$' + ${#numbers.formatDecimal(number.shiftSales, 1, 2)}">C$0.00</span>
                             </div>
                             <div class="flex justify-between items-center text-body-small">
                                 <span>Día:</span>
-                                <span th:text="'$' + ${#numbers.formatDecimal(number.dailySales, 1, 2)}">$0.00</span>
+                                <span th:text="'C$' + ${#numbers.formatDecimal(number.dailySales, 1, 2)}">C$0.00</span>
                             </div>
                         </div>
                     </a>
@@ -72,23 +72,23 @@
                     <div class="flex flex-col p-4 rounded-2xl bg-tertiary-container flex-1">
                         <span class="text-body-medium text-on-tertiary-container">Límite Actual</span>
                         <span class="text-title-large text-on-tertiary-container"
-                            th:text="'$' + ${#numbers.formatDecimal(selectedNumber.limit, 1, 2)}">$250.00</span>
+                            th:text="'C$' + ${#numbers.formatDecimal(selectedNumber.limit, 1, 2)}">C$250.00</span>
                     </div>
                     <div class="flex flex-col p-4 rounded-2xl bg-primary-container flex-1">
                         <span class="text-body-medium text-on-primary-container">Vendido - Turno</span>
                         <span class="text-title-large text-on-primary-container"
-                            th:text="'$' + ${#numbers.formatDecimal(selectedNumber.shiftSales, 1, 2)}">$0.00</span>
+                            th:text="'C$' + ${#numbers.formatDecimal(selectedNumber.shiftSales, 1, 2)}">C$0.00</span>
                         <span class="text-body-small text-on-primary-container"
-                            th:text="'Restante: $' + ${#numbers.formatDecimal(selectedNumber.shiftRemaining, 1, 2)}">Restante:
-                            $250.00</span>
+                            th:text="'Restante: C$' + ${#numbers.formatDecimal(selectedNumber.shiftRemaining, 1, 2)}">Restante:
+                            C$250.00</span>
                     </div>
                     <div class="flex flex-col p-4 rounded-2xl bg-primary-container flex-1">
                         <span class="text-body-medium text-on-primary-container">Vendido - Día</span>
                         <span class="text-title-large text-on-primary-container"
-                            th:text="'$' + ${#numbers.formatDecimal(selectedNumber.dailySales, 1, 2)}">$0.00</span>
+                            th:text="'C$' + ${#numbers.formatDecimal(selectedNumber.dailySales, 1, 2)}">C$0.00</span>
                         <span class="text-body-small text-on-primary-container"
-                            th:text="'Restante: $' + ${#numbers.formatDecimal(selectedNumber.dailyRemaining, 1, 2)}">Restante:
-                            $250.00</span>
+                            th:text="'Restante: C$' + ${#numbers.formatDecimal(selectedNumber.dailyRemaining, 1, 2)}">Restante:
+                            C$250.00</span>
                     </div>
                 </div>
 

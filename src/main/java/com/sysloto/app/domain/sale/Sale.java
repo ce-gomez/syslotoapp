@@ -23,7 +23,7 @@ public class Sale {
         return new Sale(null, price, factor, lotteryNumber);
     }
 
-    public double getTotal() {
+    public double getPayout() {
         return price * factor;
     }
 }

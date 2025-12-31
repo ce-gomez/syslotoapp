@@ -41,7 +41,7 @@ public class FinancialStatsService {
                                                         .flatMap(bill -> bill.getSales().stream())
                                                         .filter(sale -> sale.getLotteryNumber().getNumber()
                                                                         .equals(winningNumber.getNumber()))
-                                                        .mapToDouble(Sale::getTotal) // Using price * factor
+                                                        .mapToDouble(Sale::getPayout) // Using price * factor
                                                         .sum();
 
                                         return new WinningNumberDetailDTO(
@@ -89,7 +89,7 @@ public class FinancialStatsService {
                                                                                                                         .equals(bill
                                                                                                                                         .getSchedule()
                                                                                                                                         .getScheduleId())))
-                                                                        .mapToDouble(Sale::getTotal)
+                                                                        .mapToDouble(Sale::getPayout)
                                                                         .sum())
                                                         .sum();
 

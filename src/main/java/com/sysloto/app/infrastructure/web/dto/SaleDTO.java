@@ -8,14 +8,13 @@ public record SaleDTO(
         double price,
         double factor,
         double disbursement,
-        LotteryNumber lotteryNumber
-) {
+        LotteryNumber lotteryNumber) {
     public static SaleDTO fromEntity(Sale sale) {
         return new SaleDTO(
                 sale.getSaleId(),
                 sale.getPrice(),
                 sale.getFactor(),
-                sale.getPrice() * sale.getFactor(),
+                sale.getPayout(),
                 sale.getLotteryNumber());
     }
 }
