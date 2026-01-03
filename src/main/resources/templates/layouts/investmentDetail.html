@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Investment Detail</title>
+</head>
+
+<body>
+    <div th:fragment="investment-detail" class="flex flex-col flex-1 bg-surface rounded-3xl overflow-hidden">
+        <header class="flex flex-col px-4 pt-2 pb-3 shrink-0">
+            <h3 class="text-headline-medium">Detalle de ventas</h3>
+            <span class="text-body-medium bg-surface-container-low px-2 rounded-sm w-fit">
+                <span>Numero <span class="font-bold" th:text="${selectedNumber}">01</span></span>
+            </span>
+        </header>
+        <div class="flex px-4 shrink-0">
+            <h4 class="text-title-medium">Res&uacute;men</h4>
+        </div>
+        <div class="flex gap-3 px-4 py-2 items-center shrink-0">
+            <div class="flex flex-col p-3 rounded-xl bg-success-container text-on-success-container flex-1">
+                <h4 class="text-title-medium">Recaudado</h4>
+                <h1 class="text-display-small truncate text-on-success-container" th:text="'C$' + ${collected}">C$20
+                </h1>
+            </div>
+            <div class="flex flex-col p-3 rounded-xl bg-error-container text-on-error-container flex-1">
+                <h4 class="text-title-medium">Desembolso</h4>
+                <h1 class="text-display-small truncate text-on-error-container" th:text="'C$' + ${payout}">C$1,600</h1>
+            </div>
+        </div>
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <div class="flex justify-between items-center pl-4 pr-2 shrink-0">
+                <h4 class="text-title-medium">Ventas</h4>
+                <i th:replace="~{fragments/iconButton :: icon-button('swap_vert')}"></i>
+            </div>
+            <ul class="flex flex-col gap-1 px-4 overflow-y-auto flex-1 pb-4 scrollbar-hide">
+                <li th:each="sale : ${numberInvestments}">
+                    <div
+                        class="flex justify-between items-center px-4 py-2 rounded-sm bg-surface-container-low border-b border-outline-variant/30">
+                        <div class="flex flex-col">
+                            <span class="text-body-large text-on-surface" th:text="'C$' + ${sale.amount}">C$10</span>
+                            <span class="text-label-small text-on-surface-variant"
+                                th:text="${#temporals.format(sale.date, 'hh:mm a')}">10:00 AM</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="flex flex-col items-end">
+                                <span class="text-label-small text-on-surface-variant">Premio</span>
+                                <span class="text-body-medium text-error"
+                                    th:text="'C$' + ${sale.getPayout()}">C$800</span>
+                            </div>
+                            <form th:action="@{/sellers/sales/delete/{id}(id=${sale.investmentId})}" method="post"
+                                onsubmit="return confirm('¿Eliminar esta venta?');">
+                                <input type="hidden" name="sellerId" th:value="${sellerId}">
+                                <input type="hidden" name="number" th:value="${selectedNumber}">
+                                <button type="submit"
+                                    class="p-2 rounded-full hover:bg-error/10 text-error transition-colors">
+                                    <i class="material-symbols-rounded" style="font-size: 20px;">delete</i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

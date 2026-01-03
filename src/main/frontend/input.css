@@ -39,12 +39,26 @@
     --color-surface-container-high: #EAE9DC;
     --color-surface-container-highest: #E5E3D6;
 
+    --color-success: #446832;
+    --color-on-success: #ffffff;
+    --color-success-container: #C4EFAC;
+    --color-on-success-container: #2D4F1D;
+
     --font-google-sans: 'Google Sans', sans-serif;
     --font-nunito: 'Nunito', sans-serif;
 }
 
 @theme inline {
     --font-sans: 'Google Sans', sans-serif;
+}
+
+@utility text-display-small {
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+    color: var(--color-on-surface);
+    font-family: 'Nunito', sans-serif;
 }
 
 @utility text-headline-medium {

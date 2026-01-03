@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/base :: layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sorteos</title>
+</head>
+
+<body>
+    <section class="flex flex-col gap-6 p-6 h-full w-full overflow-hidden">
+        <header class="flex flex-col gap-4">
+            <h1 class="text-headline-large text-on-surface">Resultados de Sorteos</h1>
+
+            <!-- Filters (Chips) -->
+            <div class="flex gap-2">
+                <a th:href="@{/draws(filter='today')}"
+                    th:classappend="${filter == 'today'} ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high'"
+                    class="flex items-center px-4 py-2 rounded-full text-label-large transition-all">
+                    <i class="material-symbols-rounded mr-2" style="font-size: 20px;">today</i>
+                    Hoy
+                </a>
+                <a th:href="@{/draws(filter='all')}"
+                    th:classappend="${filter == 'all'} ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high'"
+                    class="flex items-center px-4 py-2 rounded-full text-label-large transition-all">
+                    <i class="material-symbols-rounded mr-2" style="font-size: 20px;">history</i>
+                    Todos
+                </a>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto pr-2 scrollbar-hide">
+            <div th:if="${#lists.isEmpty(draws)}" class="flex flex-col items-center justify-center py-20 opacity-50">
+                <i class="material-symbols-rounded" style="font-size: 64px;">event_busy</i>
+                <p class="text-body-large mt-4">No se encontraron sorteos registrados.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                <div th:each="draw : ${draws}"
+                    class="flex flex-col rounded-3xl bg-surface-container-low border border-outline-variant/30 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <!-- Drawing Header -->
+                    <div class="flex flex-wrap items-center justify-between p-6 bg-surface-container-high/50 gap-4">
+                        <div class="flex items-center gap-6">
+                            <div
+                                class="flex items-center justify-center w-16 h-16 rounded-full bg-primary text-on-primary shadow-inner">
+                                <span class="text-display-small font-black" th:text="${draw.numberCode}">00</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h2 class="text-title-large text-on-surface" th:text="${draw.scheduleName}">Turno</h2>
+                                <p class="text-body-medium text-on-surface-variant"
+                                    th:text="${#temporals.format(draw.date, 'EEEE, d MMMM yyyy')}">Fecha</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div
+                                class="flex flex-col items-end px-4 py-2 rounded-2xl bg-success-container/30 border border-success/20">
+                                <span class="text-label-small text-success font-bold uppercase tracking-wider">Recaudado
+                                    Total</span>
+                                <span class="text-title-large text-on-success-container"
+                                    th:text="'C$' + ${#numbers.formatDecimal(draw.totalCollected, 1, 'COMMA', 2, 'POINT')}">C$0.00</span>
+                            </div>
+                            <div
+                                class="flex flex-col items-end px-4 py-2 rounded-2xl bg-error-container/30 border border-error/20">
+                                <span class="text-label-small text-error font-bold uppercase tracking-wider">Premios
+                                    Totales</span>
+                                <span class="text-title-large text-on-error-container"
+                                    th:text="'C$' + ${#numbers.formatDecimal(draw.totalPayout, 1, 'COMMA', 2, 'POINT')}">C$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seller Breakdown -->
+                    <div class="p-6 pt-2">
+                        <h3 class="text-title-medium text-on-surface mb-4 flex items-center gap-2">
+                            <i class="material-symbols-rounded text-primary">groups</i>
+                            Desglose por Vendedor
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                            <div th:each="seller : ${draw.sellerSummaries}"
+                                class="flex flex-col p-4 rounded-2xl bg-surface border border-outline-variant/20 hover:border-primary/30 transition-all">
+                                <span class="text-title-medium text-on-surface mb-2 truncate"
+                                    th:text="${seller.sellerName}">Nombre Vendedor</span>
+                                <div class="flex justify-between items-center text-body-medium">
+                                    <span class="text-on-surface-variant">Recaudado:</span>
+                                    <span class="font-bold text-success"
+                                        th:text="'C$' + ${#numbers.formatDecimal(seller.collected, 1, 'COMMA', 0, 'POINT')}">C$0</span>
+                                </div>
+                                <div class="flex justify-between items-center text-body-medium">
+                                    <span class="text-on-surface-variant">Premio:</span>
+                                    <span class="font-bold text-error"
+                                        th:text="'C$' + ${#numbers.formatDecimal(seller.payout, 1, 'COMMA', 0, 'POINT')}">C$0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

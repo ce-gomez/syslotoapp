@@ -50,7 +50,7 @@ public class SellerWebController {
     }
 
     @GetMapping("/{id}/sales")
-    public String listSales(@PathVariable Long id, Model model) {
+    public String listSales(@PathVariable Long id, @RequestParam(required = false) String number, Model model) {
         var schedule = scheduleFinder.findCurrentSchedule()
                 .map(Schedule::getScheduleId)
                 .orElse(0L);
@@ -62,14 +62,12 @@ public class SellerWebController {
         var limitsMap = seller.getLimits().stream()
                 .collect(Collectors.toMap(
                         sl -> sl.getLimited().getNumberCode(),
-                        sl -> sl.getAmount().doubleValue()
-                ));
+                        sl -> sl.getAmount().doubleValue()));
 
         var dto = investments.stream()
                 .collect(Collectors.groupingBy(
                         i -> i.getLotteryNumber().getNumberCode(),
-                        Collectors.summingDouble(Investment::getAmount)
-                ))
+                        Collectors.summingDouble(Investment::getAmount)))
                 .entrySet().stream()
                 .map(entry -> {
                     String numberCode = entry.getKey();
@@ -82,11 +80,22 @@ public class SellerWebController {
                     return new InvestmentDTO(
                             numberCode,
                             totalAmount.toString(),
-                            remainingLimit.toString()
-                    );
+                            remainingLimit.toString());
                 }).toList();
 
         var total = investments.stream().mapToDouble(Investment::getAmount).sum();
+
+        if (number != null) {
+            var numberInvestments = investmentRepository
+                    .findBySellerAndNumberAndScheduleAndDate(id, number, schedule, LocalDate.now());
+            var collected = numberInvestments.stream().mapToDouble(Investment::getAmount).sum();
+            var payout = numberInvestments.stream().mapToDouble(Investment::getPayout).sum();
+
+            model.addAttribute("selectedNumber", number);
+            model.addAttribute("numberInvestments", numberInvestments);
+            model.addAttribute("collected", collected);
+            model.addAttribute("payout", payout);
+        }
 
         var initials = seller.getName().charAt(0) + "" + seller.getLastname().charAt(0);
         model.addAttribute("isInSalesContext", true);
@@ -99,10 +108,11 @@ public class SellerWebController {
     }
 
     @PostMapping("/{id}/sales")
-    public String createSale(@PathVariable Long id, @RequestParam String number, @RequestParam double amount, RedirectAttributes redirectAttributes) {
+    public String createSale(@PathVariable Long id, @RequestParam String number, @RequestParam double amount,
+            RedirectAttributes redirectAttributes) {
         try {
             salesService.createNewSale(id, number, amount);
-            return "redirect:/sellers/{id}/sales";
+            return "redirect:/sellers/{id}/sales?number=" + number;
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/sellers/{id}/sales";
@@ -139,5 +149,18 @@ public class SellerWebController {
             @RequestParam double factor) {
         updateSellerProfile.updateProfile(id, name, lastname, factor);
         return "redirect:/sellers?sellerId=" + id;
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteSeller(@PathVariable Long id) {
+        sellerRepository.findById(id).ifPresent(sellerRepository::delete);
+        return "redirect:/sellers";
+    }
+
+    @PostMapping("/sales/delete/{investmentId}")
+    public String deleteSale(@PathVariable java.util.UUID investmentId, @RequestParam Long sellerId,
+            @RequestParam String number) {
+        salesService.deleteSale(investmentId);
+        return "redirect:/sellers/" + sellerId + "/sales?number=" + number;
     }
 }

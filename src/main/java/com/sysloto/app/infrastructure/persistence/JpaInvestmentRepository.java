@@ -19,4 +19,9 @@ public interface JpaInvestmentRepository extends InvestmentRepository, ListCrudR
     @Override
     @Query("SELECT b FROM Investment b inner join Seller s on s.sellerId = b.seller.sellerId WHERE s.sellerId = :sellerId AND b.schedule.scheduleId = :scheduleId AND CAST(b.date AS localdate) = :date")
     List<Investment> findBySellerAndScheduleAndDate(Long sellerId, Long scheduleId, LocalDate date);
+
+    @Override
+    @Query("SELECT b FROM Investment b WHERE b.seller.sellerId = :sellerId AND b.lotteryNumber.numberCode = :numberCode AND b.schedule.scheduleId = :scheduleId AND CAST(b.date AS localdate) = :date")
+    List<Investment> findBySellerAndNumberAndScheduleAndDate(Long sellerId, String numberCode, Long scheduleId,
+            LocalDate date);
 }

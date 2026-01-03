@@ -19,7 +19,9 @@
             <a
                 th:replace="~{fragments/navigationItem :: navigation-item('/sellers', 'Vendedores', 'group', ${isInSellersContext ?: false})}"></a>
             <a
-                th:replace="~{fragments/navigationItem :: navigation-item('/numbers', 'Números', 'numbers', ${isInNumbersContext ?: false})}"></a>
+                th:replace="~{fragments/navigationItem :: navigation-item('/numbers', 'Límites', 'numbers', ${isInNumbersContext ?: false})}"></a>
+            <a
+                th:replace="~{fragments/navigationItem :: navigation-item('/draws', 'Sorteo', 'event_available', ${isInDrawsContext ?: false})}"></a>
             <a
                 th:replace="~{fragments/navigationItem :: navigation-item('/investments', 'Inversiones', 'monitoring', ${isInInvestmentsContext ?: false})}"></a>
             <details class="group" open>
@@ -39,7 +41,8 @@
                     </li>
                 </ul>
             </details>
-            <button th:replace="~{fragments/buttons :: invoker-button('add', 'Añadir vendedor', 'new-sel-modal', 'show-modal', '')}"></button>
+            <button
+                th:replace="~{fragments/buttons :: invoker-button('add', 'Añadir vendedor', 'new-sel-modal', 'show-modal', '')}"></button>
         </nav>
         <div th:replace="~{fragments/winningNumberDialog :: winning-number-dialog}"></div>
         <dialog th:replace="~{layouts/newSellerModal :: #new-sel-modal}">
