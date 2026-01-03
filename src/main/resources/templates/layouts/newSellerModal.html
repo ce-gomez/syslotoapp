@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Seller</title>
+</head>
+<body>
+<dialog id="new-sel-modal" class="m-auto rounded-3xl w-2/5 bg-surface p-0 border-none backdrop:bg-black/50">
+    <div class="flex flex-col p-6 gap-6 w-full" style="max-width: 600px;">
+        <header class="flex flex-col">
+            <h2 class="text-headline-medium">Registrar Vendedor</h2>
+            <p class="text-body-large text-on-surface-variant">Complete los datos del nuevo vendedor</p>
+        </header>
+
+        <form method="POST" th:action="@{/sellers/register}" class="flex flex-col gap-5">
+            <div class="flex flex-col gap-2">
+                <label for="name" class="text-body-medium text-on-surface-variant pl-4">Nombre</label>
+                <input type="text" id="name" name="name" required
+                       class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                       placeholder="Ingrese el nombre" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="lastname" class="text-body-medium text-on-surface-variant pl-4">Apellido</label>
+                <input type="text" id="lastname" name="lastname"
+                       class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                       placeholder="Ingrese el apellido" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="factor" class="text-body-medium text-on-surface-variant pl-4">Factor</label>
+                <input type="number" id="factor" name="factor" step="0.01" min="0" required
+                       class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                       placeholder="Ej: 0.20" />
+            </div>
+
+            <div class="flex gap-3 justify-end">
+                <button type="button" onclick="document.getElementById('new-sel-modal').close()"
+                        class="px-6 py-3 rounded-full text-primary font-medium hover:bg-primary/10 transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit"
+                        class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary hover:opacity-90 transition-colors">
+                    <span class="text-label-large">Guardar</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
+</body>
+</html>

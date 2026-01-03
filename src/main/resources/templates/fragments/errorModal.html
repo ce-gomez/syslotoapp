@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<body>
+<dialog id="error-modal" th:fragment="error-modal" class="m-auto rounded-3xl w-1/4 bg-surface-container-high p-0 border-none backdrop:bg-black/50">
+    <div class="flex flex-col p-4 gap-3 w-full" th:if="${errorMessage}">
+        <header class="flex flex-col items-center gap-2 text-center">
+            <i class="material-symbols-rounded text-error" style="font-size: 48px;">error</i>
+            <h2 class="text-headline-medium text-on-surface">Algo salió mal</h2>
+        </header>
+
+        <div class="flex flex-col gap-2">
+            <p class="text-body-large text-on-surface-variant" th:text="${errorMessage}">
+                Ha ocurrido un error inesperado.
+            </p>
+        </div>
+
+        <div class="flex justify-end pt-2">
+            <button type="button"
+                    onclick="document.getElementById('error-modal').close()"
+                    class="text-label-large px-4 py-2 rounded-full bg-transparent text-primary hover:bg-surface-container-highest transition-colors">
+                Entendido
+            </button>
+        </div>
+    </div>
+    <script th:if="${errorMessage}">
+        document.getElementById('error-modal').showModal();
+    </script>
+</dialog>
+</body>
+</html>

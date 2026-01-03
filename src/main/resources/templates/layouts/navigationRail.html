@@ -27,20 +27,23 @@
                     class="flex items-center px-4 py-2 cursor-pointer text-on-surface-variant hover:bg-surface-container-high rounded-full list-none">
                     <!-- Icono opcional para indicar despliegue -->
                     <i class="material-symbols-rounded transition-transform group-open:rotate-180">arrow_drop_down</i>
-                    <span class="flex-1">Ventas</span>
+                    <span class="flex-1">Vendedores</span>
                 </summary>
                 <ul>
                     <li th:each="seller : ${globalSellers}">
-                        <a th:href="@{/bills/s/{id}/daily(id=${seller.sellerId})}"
-                            th:classappend="${seller.sellerId == sellerId and (isInBillsContext ?: false)} ? 'bg-secondary-container text-on-secondary-container' : ''"
+                        <a th:href="@{/sellers/{id}/sales(id=${seller.sellerId})}"
+                            th:classappend="${seller.sellerId == sellerId and (isInSalesContext ?: false)} ? 'bg-secondary-container text-on-secondary-container' : ''"
                             class="inline-flex whitespace-nowrap w-max px-4 py-3 rounded-full hover:bg-surface-container-high transition-colors">
                             <span th:text="${seller.name} + ' ' + ${seller.lastname}">Nombre Apellido</span>
                         </a>
                     </li>
                 </ul>
             </details>
+            <button th:replace="~{fragments/buttons :: invoker-button('add', 'Añadir vendedor', 'new-sel-modal', 'show-modal', '')}"></button>
         </nav>
         <div th:replace="~{fragments/winningNumberDialog :: winning-number-dialog}"></div>
+        <dialog th:replace="~{layouts/newSellerModal :: #new-sel-modal}">
+        </dialog>
     </aside>
 </body>
 

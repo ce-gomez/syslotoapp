@@ -1,13 +1,12 @@
 package com.sysloto.app.domain.seller;
 
+import com.sysloto.app.domain.BaseDomainRepository;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface SellerRepository {
+public interface SellerRepository extends BaseDomainRepository<Seller> {
     Optional<Seller> findById(Long id);
     List<Seller> findByName(String name);
-    Seller findByBillId(Long billId);
-    Seller save(Seller seller);
-    void delete(Seller seller);
-    List<Seller> findAll();
+    Seller findByInvestmentId(Long investment);
 }

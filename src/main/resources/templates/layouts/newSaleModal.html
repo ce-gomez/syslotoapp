@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New sale</title>
+</head>
+<body>
+<dialog id="new-sale-modal" class="m-auto rounded-3xl w-2/5 bg-surface p-0 border-none backdrop:bg-black/50">
+    <div class="flex flex-col p-6 gap-6 w-full" style="max-width: 600px;">
+        <header class="flex flex-col">
+            <h2 class="text-headline-medium">Nueva Venta</h2>
+            <p class="text-body-large text-on-surface-variant">Ingrese los detalles de la inversión</p>
+        </header>
+
+        <form method="POST" th:action="@{/sellers/{id}/sales(id=${sellerId})}" class="flex flex-col gap-5">
+            <div class="flex flex-col gap-2">
+                <label for="number" class="text-body-medium text-on-surface-variant pl-4">Número de Lotería</label>
+                <input type="text" id="number" name="number" required maxlength="2" pattern="\d{2}"
+                       class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                       placeholder="Ej: 01" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="amount" class="text-body-medium text-on-surface-variant pl-4">Monto (C$)</label>
+                <input type="number" id="amount" name="amount" step="0.01" min="1" required
+                       class="flex p-4 text-body-large border text-on-surface placeholder:text-on-surface-variant border-outline rounded-sm outline-none focus:ring-2 focus:ring-primary focus:border-primary w-full"
+                       placeholder="Ingrese el monto" />
+            </div>
+
+            <div class="flex gap-3 justify-end">
+                <button type="button" onclick="document.getElementById('new-sale-modal').close()"
+                        class="px-6 py-3 rounded-full text-primary font-medium hover:bg-primary/10 transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit"
+                        class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary hover:opacity-90 transition-colors">
+                    <span class="text-label-large">Registrar</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
+</body>
+</html>

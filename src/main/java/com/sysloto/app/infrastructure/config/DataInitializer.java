@@ -1,7 +1,7 @@
 package com.sysloto.app.infrastructure.config;
 
-import com.sysloto.app.domain.sale.LotteryNumber;
-import com.sysloto.app.domain.sale.LotteryNumberRepository;
+import com.sysloto.app.domain.investment.LotteryNumberRepository;
+import com.sysloto.app.domain.investment.LotteryNumber;
 import com.sysloto.app.domain.schedule.SaleSpecification;
 import com.sysloto.app.domain.schedule.Schedule;
 import com.sysloto.app.domain.schedule.ScheduleRepository;
@@ -38,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
         if (lotteryNumberRepository.count() == 0) {
             for (int i = 0; i <= 99; i++) {
                 String formattedNumber = String.format("%02d", i);
-                lotteryNumberRepository.save(LotteryNumber.create(formattedNumber, 250.0));
+                lotteryNumberRepository.save(LotteryNumber.of(formattedNumber));
             }
         }
     }

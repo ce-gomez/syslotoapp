@@ -10,6 +10,6 @@ public record SellerDTO(
         String initials
 ) {
     public static SellerDTO fromEntity(Seller seller) {
-        return new SellerDTO(seller.sellerId, seller.name, seller.lastname, seller.factor, seller.name.charAt(0) + "" + seller.lastname.charAt(0));
+        return new SellerDTO(seller.getSellerId(), seller.getName(), seller.getLastname(), seller.getFactor().doubleValue(), seller.getName().charAt(0) + "" + seller.getLastname().charAt(0));
     }
 }

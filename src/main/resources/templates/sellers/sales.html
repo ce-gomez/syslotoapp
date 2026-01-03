@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" th:replace="~{layouts/base :: layout(~{::title}, ~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas diarias</title>
+</head>
+<body>
+<section class="flex gap-3 mb-4 mr-4 max-h-screen w-full">
+  <div class="flex flex-col rounded-3xl bg-surface w-md h-full overflow-hidden">
+    <header class="flex justify-between items-center p-2 shrink-0">
+      <div class="flex items-center gap-3">
+        <i th:replace="~{fragments/avatarIcon :: avatar-icon(${initials})}"></i>
+        <span class="text-title-medium text-on-surface" th:text="${seller.getName()} + ' ' + ${seller.getLastname()}">Cesar Gomez</span>
+      </div>
+      <i th:replace="~{fragments/iconButton :: icon-button('more_vert')}"></i>
+    </header>
+    <div class="flex px-4 w-full">
+      <button commandfor="new-sale-modal"
+              command="show-modal"
+              autofocus
+              class="inline-flex whitespace-nowrap w-full items-center justify-start gap-3 px-4 py-2 rounded-full bg-transparent text-primary
+        leading-none hover:bg-surface-container-low transition-colors focus:bg-surface-container-high focus:ring focus:ring-offset-2 focus:ring-offset-primary"
+      >
+        <i class="material-symbols-rounded block" style="font-size: 24px;">add_circle</i>
+        <span class="text-label-large">Agregar una venta</span>
+      </button>
+    </div>
+    <div class="flex gap-3 p-2 w-full">
+      <div class="flex flex-1 justify-between items-center p-3 rounded-xl bg-primary-container text-on-primary-container">
+        <h4 class="text-title-medium">Total</h4>
+        <span class="text-title-large text-on-primary-container" th:text="'C$' + ${total}">C$100</span>
+      </div>
+    </div>
+    <div class="flex flex-col flex-1 overflow-hidden">
+      <div class="flex justify-between items-center pl-4 pr-2">
+        <h4 class="text-title-medium">Inversiones</h4>
+        <i th:replace="~{fragments/iconButton :: icon-button('swap_vert')}"></i>
+      </div>
+      <ul class="flex flex-col gap-1 px-2 overflow-y-auto flex-1 pb-4 scrollbar-hide">
+        <li th:each="invest : ${investments}">
+          <a class="flex justify-between items-center px-4 py-2 rounded-sm bg-surface-container-low">
+            <i th:replace="~{fragments/textIcon :: text-icon(${invest.numberCode()})}" th:text="${invest.numberCode()}">01</i>
+            <div class="flex flex-col items-end">
+              <span class="text-body-large text-on-surface" th:text="'C$' + ${invest.amount()}">C$20</span>
+              <span class="text-body-small text-error" th:text="'- C$' + ${invest.limit()}">- C$170</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div th:replace="~{layouts/emptyPane :: empty-pane('No se ha seleccionado un número.', 'Selecciona un número para visualizar el detalle de ventas.')}">
+  </div>
+
+  <div th:replace="~{layouts/newSaleModal :: #new-sale-modal}"></div>
+</section>
+</body>
+</html>

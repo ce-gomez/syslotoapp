@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaSellerRepository extends SellerRepository, ListCrudRepository<Seller, Long> {
-    @Override @Query("SELECT s FROM Seller s inner join Bill b on b.seller.sellerId = s.sellerId WHERE b.billId = :id")
-    Seller findByBillId(@Param("id") Long id);
+    @Override @Query("SELECT s FROM Seller s inner join Investment b on b.seller.sellerId = s.sellerId WHERE b.investmentId = :id")
+    Seller findByInvestmentId(@Param("id") Long id);
 }

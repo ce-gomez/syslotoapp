@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @Service
 public class UpdateSellerProfile {
@@ -13,9 +15,9 @@ public class UpdateSellerProfile {
     @Transactional
     public void updateProfile(Long id, String name, String lastname, double factor) {
         var seller = sellerRepository.findById(id).get();
-        seller.name = name;
-        seller.lastname = lastname;
-        seller.factor = factor;
+        seller.setName(name);
+        seller.setLastname(lastname);
+        seller.setFactor(BigDecimal.valueOf(factor));
         sellerRepository.save(seller);
     }
 
