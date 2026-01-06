@@ -9,7 +9,7 @@
 <body>
     <section class="flex flex-col gap-6 p-6 h-full w-full overflow-hidden">
         <header class="flex flex-col gap-4">
-            <h1 class="text-headline-large text-on-surface">Resultados de Sorteos</h1>
+            <h1 class="text-headline-medium text-on-surface">Resultados de Sorteos</h1>
 
             <!-- Filters (Chips) -->
             <div class="flex gap-2">
@@ -40,14 +40,12 @@
                     <!-- Drawing Header -->
                     <div class="flex flex-wrap items-center justify-between p-6 bg-surface-container-high/50 gap-4">
                         <div class="flex items-center gap-6">
-                            <div
-                                class="flex items-center justify-center w-16 h-16 rounded-full bg-primary text-on-primary shadow-inner">
-                                <span class="text-display-small font-black" th:text="${draw.numberCode}">00</span>
-                            </div>
+                            <i th:replace="~{fragments/textIcon :: text-icon(${draw.numberCode})}">00</i>
                             <div class="flex flex-col">
                                 <h2 class="text-title-large text-on-surface" th:text="${draw.scheduleName}">Turno</h2>
                                 <p class="text-body-medium text-on-surface-variant"
-                                    th:text="${#temporals.format(draw.date, 'EEEE, d MMMM yyyy')}">Fecha</p>
+                                    th:text="${#temporals.format(draw.date, 'EEEE, d ''de'' MMMM ''de'' yyyy')}">Fecha
+                                </p>
                             </div>
                         </div>
 
@@ -72,7 +70,7 @@
                     <!-- Seller Breakdown -->
                     <div class="p-6 pt-2">
                         <h3 class="text-title-medium text-on-surface mb-4 flex items-center gap-2">
-                            <i class="material-symbols-rounded text-primary">groups</i>
+                            <i class="material-symbols-rounded text-primary">group</i>
                             Desglose por Vendedor
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

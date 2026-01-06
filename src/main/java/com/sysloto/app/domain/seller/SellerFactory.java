@@ -14,7 +14,7 @@ public class SellerFactory {
     public Seller create(String name, String lastname, double factor) {
         var seller = Seller.create(name, lastname, BigDecimal.valueOf(factor));
         lotteryNumberRepository.findAll().forEach(n -> {
-            seller.addLimit(n, BigDecimal.valueOf(250));
+            seller.setOrUpdateLimit(n, BigDecimal.valueOf(250));
         });
         return seller;
     }

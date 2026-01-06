@@ -40,13 +40,16 @@ public class Seller {
         return new Seller(null, name, lastname, factor);
     }
 
-    public void addLimit(LotteryNumber n, BigDecimal amount) {
-        SaleLimit limit = SaleLimit.of(amount, n);
-        // Throws exception if the limit already exists for number
-        if (limits.stream().map(SaleLimit::getLimited).toList().contains(n)) {
-            throw new IllegalArgumentException("El límite ya existe para número: " + n.getNumberCode());
+    public void setOrUpdateLimit(LotteryNumber n, BigDecimal amount) {
+        var existingLimit = limits.stream()
+                .filter(sl -> sl.getLimited().equals(n))
+                .findFirst();
+
+        if (existingLimit.isPresent()) {
+            existingLimit.get().setAmount(amount);
+        } else {
+            limits.add(SaleLimit.of(amount, n));
         }
-        limits.add(limit);
     }
 
     public List<SaleLimit> getLimits() {
@@ -55,17 +58,26 @@ public class Seller {
 
     @Override
     public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy
+                ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass()
+                : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy
+                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+                : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass)
+            return false;
         Seller seller = (Seller) o;
         return getSellerId() != null && Objects.equals(getSellerId(), seller.getSellerId());
     }
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+        return this instanceof HibernateProxy
+                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
+                : getClass().hashCode();
     }
 }

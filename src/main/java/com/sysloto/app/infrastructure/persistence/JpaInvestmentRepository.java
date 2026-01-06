@@ -24,4 +24,10 @@ public interface JpaInvestmentRepository extends InvestmentRepository, ListCrudR
     @Query("SELECT b FROM Investment b WHERE b.seller.sellerId = :sellerId AND b.lotteryNumber.numberCode = :numberCode AND b.schedule.scheduleId = :scheduleId AND CAST(b.date AS localdate) = :date")
     List<Investment> findBySellerAndNumberAndScheduleAndDate(Long sellerId, String numberCode, Long scheduleId,
             LocalDate date);
+
+    @Override
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query("DELETE FROM Investment b WHERE b.seller.sellerId = :sellerId")
+    void deleteBySellerId(Long sellerId);
 }

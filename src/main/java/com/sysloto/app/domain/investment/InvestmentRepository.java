@@ -16,4 +16,6 @@ public interface InvestmentRepository extends BaseDomainRepository<Investment> {
 
     List<Investment> findBySellerAndNumberAndScheduleAndDate(Long sellerId, String numberCode, Long scheduleId,
             LocalDate date);
+
+    void deleteBySellerId(Long sellerId);
 }

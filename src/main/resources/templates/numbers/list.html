@@ -8,52 +8,18 @@
 
 <body>
     <section class="flex gap-3 mb-4 mr-4 max-h-screen w-full">
-        <!-- Left Panel - Seller List -->
-        <div class="flex flex-col rounded-3xl bg-surface w-md overflow-hidden">
-            <header class="flex flex-col p-4">
-                <h2 class="text-headline-medium text-on-surface">Vendedores</h2>
-                <p class="text-body-medium text-on-surface-variant">Selecciona un vendedor para configurar sus límites
-                </p>
-            </header>
-
-            <ul class="flex flex-col gap-1 px-2 overflow-y-auto flex-1 pb-4 scrollbar-hide">
-                <li th:each="seller : ${sellers}">
-                    <a th:href="@{/numbers(sellerId=${seller.sellerId})}"
-                        th:classappend="${sellerId != null && seller.sellerId == sellerId} ? 'bg-secondary-container text-on-secondary-container' : ''"
-                        class="flex items-center px-4 py-3 gap-4 rounded-2xl hover:bg-surface-container-high transition-colors">
-                        <div
-                            class="flex items-center justify-center w-10 h-10 rounded-full bg-primary-container text-on-primary-container">
-                            <span class="text-label-large"
-                                th:text="${seller.name.substring(0,1).toUpperCase() + seller.lastname.substring(0,1).toUpperCase()}">AB</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-title-medium" th:text="${seller.name} + ' ' + ${seller.lastname}">Nombre
-                                Apellido</span>
-                            <span class="text-body-small opacity-70"
-                                th:text="${seller.limits.size()} + ' límites configurados'">0 límites</span>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
         <!-- Right Panel - Limits List -->
         <div class="flex flex-col flex-1 rounded-3xl bg-surface overflow-hidden">
             <th:block th:if="${selectedSeller != null}">
-                <header class="flex flex-col p-6 border-b border-outline-variant/30">
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="flex items-center justify-center w-12 h-12 rounded-full bg-tertiary-container text-on-tertiary-container">
-                            <span class="text-title-medium"
-                                th:text="${selectedSeller.name.substring(0,1).toUpperCase() + selectedSeller.lastname.substring(0,1).toUpperCase()}">AB</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <h2 class="text-headline-small text-on-surface"
-                                th:text="'Límites de ' + ${selectedSeller.name}">Límites</h2>
-                            <p class="text-body-medium text-on-surface-variant">Configuración de montos máximos por
-                                número</p>
-                        </div>
+                <header class="flex flex-col gap-3 px-1 py-2">
+                    <div class="flex items-center justify-between">
+                        <a th:href="@{/sellers/{id}/sales(id=${sellerId})}">
+                            <button th:replace="~{fragments/iconButton :: icon-button('arrow_back')}"></button>
+                        </a>
                     </div>
+                    <h2 class="text-headline-medium px-4">
+                        <span th:text="${selectedSeller.name} + ' ' + ${selectedSeller.lastname}">Name</span>
+                    </h2>
                 </header>
 
                 <div class="flex-1 overflow-y-auto p-6 scrollbar-hide">

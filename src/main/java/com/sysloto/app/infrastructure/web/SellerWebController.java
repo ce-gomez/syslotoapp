@@ -2,8 +2,8 @@ package com.sysloto.app.infrastructure.web;
 
 import com.sysloto.app.application.service.SalesService;
 import com.sysloto.app.application.service.ScheduleFinder;
-import com.sysloto.app.application.service.seller.RegistrationSellerService;
 import com.sysloto.app.application.service.UpdateSellerProfile;
+import com.sysloto.app.application.service.seller.RegistrationSellerService;
 import com.sysloto.app.domain.investment.Investment;
 import com.sysloto.app.domain.investment.InvestmentRepository;
 import com.sysloto.app.domain.schedule.Schedule;
@@ -12,11 +12,7 @@ import com.sysloto.app.infrastructure.web.dto.InvestmentDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -46,7 +42,7 @@ public class SellerWebController {
             });
         }
 
-        return "sellers/list";
+        return "sellers/profile";
     }
 
     @GetMapping("/{id}/sales")
@@ -147,12 +143,14 @@ public class SellerWebController {
             @RequestParam String name,
             @RequestParam String lastname,
             @RequestParam double factor) {
+
         updateSellerProfile.updateProfile(id, name, lastname, factor);
         return "redirect:/sellers?sellerId=" + id;
     }
 
     @PostMapping("/delete/{id}")
     public String deleteSeller(@PathVariable Long id) {
+        investmentRepository.deleteBySellerId(id);
         sellerRepository.findById(id).ifPresent(sellerRepository::delete);
         return "redirect:/sellers";
     }

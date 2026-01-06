@@ -18,9 +18,9 @@
         <div th:replace="~{fragments/optionsMenu :: options-menu(${sellerId})}"></div>
       </header>
       <div class="flex px-4 w-full">
-        <button commandfor="new-sale-modal" command="show-modal" autofocus
+        <button commandfor="new-sale-modal" command="show-modal"
           class="inline-flex whitespace-nowrap w-full items-center justify-start gap-3 px-4 py-2 rounded-full bg-transparent text-primary
-        leading-none hover:bg-surface-container-low transition-colors focus:bg-surface-container-high focus:ring focus:ring-offset-2 focus:ring-offset-primary">
+        leading-none hover:bg-surface-container-low transition-colors focus-visible:bg-surface-container-high focus-visible:ring-1 focus-visible:ring-offset-2 focus:ring-offset-primary">
           <i class="material-symbols-rounded block" style="font-size: 24px;">add_circle</i>
           <span class="text-label-large">Agregar una venta</span>
         </button>
